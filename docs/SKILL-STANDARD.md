@@ -16,9 +16,8 @@ Respect authorization, privacy, security, contractual, and operational boundarie
 
 ## Evaluation and benchmark
 
-Run the same task with and without the skill using equivalent model, tools, temperature, and token budget. Score evidence fidelity, decision usefulness, risk handling, verification, calibration, and efficiency using [BENCHMARKS.md](BENCHMARKS.md). Publish limitations and failure modes along with any claimed improvement.
+Run the same task with and without the skill using equivalent model, tools, temperature, and token budget. Score evidence fidelity, decision usefulness, risk handling, verification, calibration, and efficiency using [EVALUATION-STANDARD.md](EVALUATION-STANDARD.md) and [BENCHMARK-LAB.md](BENCHMARK-LAB.md). Publish limitations and failure modes along with any claimed improvement.
 
 ## Success and maintenance
 
 Define task-local success before acting: a validated decision, a passed test, a measured outcome, or a safe stop. Record owners and review dates for decisions that matter. Improve the skill from scored failures; avoid expanding it with untested advice.
-

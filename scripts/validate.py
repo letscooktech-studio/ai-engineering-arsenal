@@ -6,6 +6,16 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_SECTIONS = ("Workflow", "Output contract", "Quality gates")
+REQUIRED_DOCS = (
+    "OMEGA-AUDIT.md",
+    "TITAN-CONSTITUTION.md",
+    "OPERATING-MODEL.md",
+    "EVALUATION-STANDARD.md",
+    "RED-TEAM-FRAMEWORK.md",
+    "MARKET-DOMINATION-RESEARCH.md",
+    "BENCHMARK-LAB.md",
+    "SELF-EVOLUTION.md",
+)
 
 def frontmatter(text: str, path: Path) -> list[str]:
     errors = []
@@ -46,6 +56,14 @@ def main() -> int:
             path = ROOT / "benchmarks" / name / filename
             if not path.is_file():
                 errors.append(f"{path}: missing tier-one credibility artifact")
+    for filename in REQUIRED_DOCS:
+        path = ROOT / "docs" / filename
+        if not path.is_file():
+            errors.append(f"{path}: missing Omega trust-system document")
+    for filename in ("BENCHMARK.md", "RUBRIC.md", "CASE_STUDY.md", "FAILURE_PATTERNS.md", "EVALUATION.md", "EXAMPLES.md"):
+        path = ROOT / "templates" / "skill-proof-pack" / filename
+        if not path.is_file():
+            errors.append(f"{path}: missing proof-pack template")
     if errors:
         print("Validation failed:", *errors, sep="\n- ")
         return 1

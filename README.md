@@ -1,18 +1,26 @@
 # Titan OS
 
-**Production AI playbooks that turn an AI assistant into a reviewable engineering workflow.**
+**Open Source AI CTO playbooks that catch what normal AI misses.**
 
-Default AI answers are often plausible but hard to trust: they skip evidence, confuse guesses with facts, miss release risks, and leave no test path. Titan gives an assistant an operational contract—what to inspect, what to prove, what to refuse, how to verify, and what artifact to hand to a human.
+Default AI answers are often plausible but hard to trust: they skip evidence, confuse guesses with facts, miss release risks, and leave no test path. Titan gives an assistant an operational contract: what to inspect, what to prove, what to refuse, how to verify, and what artifact to hand to a human.
 
-> Titan is currently a library of cross-model operating skills. “OS” is the direction: a future layer for routing, evaluation, policy, and lifecycle—not a claim that those runtime components already exist.
+> Titan is currently a library of cross-model operating skills. "OS" is the direction: a future layer for routing, evaluation, policy, and lifecycle, not a claim that those runtime components already exist.
+
+## Why use Titan instead of asking an AI directly?
+
+Because the hard part is not getting an answer. The hard part is getting an answer that exposes assumptions, verifies claims, names risks, and survives a serious review.
+
+Titan is designed around one reputation:
+
+> This framework catches things normal AI misses.
 
 ## See the difference
 
 | Without a playbook | With a Titan playbook |
 | --- | --- |
-| “Add authentication and validate inputs.” | Maps assets and trust boundaries; reports evidence, preconditions, impact, remediation, regression tests, confidence, and review gaps. |
-| “Use a queue and a database.” | Compares designs, records assumptions and trade-offs, specifies timeouts/retries/rollback, and names the test that validates the decision. |
-| “Build an AI SaaS.” | Produces an acceptance contract plus tenancy, authorization, AI-evaluation, cost-cap, migration, observability, release, and rollback gates. |
+| "Add authentication and validate inputs." | Maps assets and trust boundaries; reports evidence, preconditions, impact, remediation, regression tests, confidence, and review gaps. |
+| "Use a queue and a database." | Compares designs, records assumptions and trade-offs, specifies timeouts/retries/rollback, and names the test that validates the decision. |
+| "Build an AI SaaS." | Produces an acceptance contract plus tenancy, authorization, AI-evaluation, cost-cap, migration, observability, release, and rollback gates. |
 
 Read a safe, concrete finding from the [synthetic tenant-review case study](case-studies/security-auditor-synthetic-tenant-review.md). It demonstrates an evidence-linked result; it does **not** claim a benchmark win.
 
@@ -27,7 +35,7 @@ Read a safe, concrete finding from the [synthetic tenant-review case study](case
 
 ## Use a playbook
 
-Copy a skill folder into your agent’s skills directory, or attach its `SKILL.md` to the task. Example:
+Copy a skill folder into your agent's skills directory, or attach its `SKILL.md` to the task. Example:
 
 ```text
 Use $security-auditor to review this authorized SaaS API. Scope: /api/invoices.
@@ -45,6 +53,20 @@ Works as portable Markdown with Codex, Claude Code/Projects, ChatGPT, Gemini, Cu
 
 Titan does not claim that a playbook finds more issues, saves money, or outperforms a model until a reproducible result is published. Each benchmark holds model/version, tools, temperature, budget, inputs, rubric, baseline, playbook run, evaluator, and limitations constant. Read the [benchmark protocol](benchmarks/README.md).
 
+## Omega trust system
+
+Titan now has a repository-level system for improving itself instead of only adding more skills:
+
+| System | Purpose |
+| --- | --- |
+| [Omega audit](docs/OMEGA-AUDIT.md) | Finds weak assets, filler risk, missing proof, and deletion candidates. |
+| [Titan constitution](docs/TITAN-CONSTITUTION.md) | Defines the laws every contribution must follow. |
+| [AI CTO operating model](docs/OPERATING-MODEL.md) | Standardizes input, research, verification, risk review, decision, and quality review. |
+| [Evaluation standard](docs/EVALUATION-STANDARD.md) | Scores outputs across accuracy, evidence, verification, actionability, security, and user value. |
+| [Red-team framework](docs/RED-TEAM-FRAMEWORK.md) | Attacks outputs before users trust them. |
+| [Benchmark lab](docs/BENCHMARK-LAB.md) | Defines the proof artifacts required before performance claims. |
+| [Self-evolution roadmap](docs/SELF-EVOLUTION.md) | Moves Titan toward proof engine, runtime adapters, and Open Source AI CTO. |
+
 ## Contribute a useful playbook
 
 A contribution needs a recurring decision problem, an evidence/verification contract, safety boundaries, and a sanitized evaluation case. Generic personas and untested prompt collections do not qualify. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -58,6 +80,7 @@ A contribution needs a recurring decision problem, an evidence/verification cont
 | [`benchmarks/`](benchmarks) | Per-playbook rubrics and reproducibility protocol. |
 | [`evals/`](evals) | Versioned task fixtures for baseline-versus-playbook runs. |
 | [`docs/`](docs) | Product thesis, compatibility, launch, and publishing guidance. |
+| [`templates/`](templates) | Proof-pack templates for graduating skills into trusted assets. |
 
 ## Status
 
@@ -66,4 +89,3 @@ A contribution needs a recurring decision problem, an evidence/verification cont
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
