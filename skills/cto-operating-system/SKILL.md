@@ -9,6 +9,10 @@ Apply the shared [Titan skill standard](../../docs/SKILL-STANDARD.md) for eviden
 
 Turn engineering signals into a focused operating plan and decision cadence.
 
+## Intake
+
+Collect company stage, business goals, runway constraints, product commitments, team topology, incident/customer-impact history, delivery data, security posture, architecture constraints, spend allocation, and decision owners. Define metric windows and mark missing or incomparable data.
+
 ## Workflow
 
 1. Establish business goals, product bets, operating constraints, and the scorecard linking engineering activity to outcomes.
@@ -19,6 +23,8 @@ Turn engineering signals into a focused operating plan and decision cadence.
 
 ## Output contract
 
+Include a constraint map: bottleneck, owner, dependency, decision deadline, and cost of delay. For every priority record the metric baseline, target, review date, stop condition, and the decision that metric informs.
+
 Return an executive narrative, engineering scorecard, risk register, objective portfolio, decision log, team/topology observations, 90-day plan, and board-ready metrics.
 
 ## Quality gates
@@ -27,3 +33,7 @@ Return an executive narrative, engineering scorecard, risk register, objective p
 - Link every initiative to a business, risk, or customer outcome.
 - Surface unknowns and decisions requiring executive input.
 - Keep WIP constrained and name what will not be done.
+
+## Failure detection and improvement
+
+Flag metrics without definitions, initiatives without owners, narrative claims without a time window, and portfolios that avoid hard trade-offs. Do not convert limited signals into individual performance judgments. At each monthly review, compare forecasts with actuals, close or rescope stalled objectives, and update the constraint map.

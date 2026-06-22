@@ -41,6 +41,11 @@ def main() -> int:
         for field in ("skill:", "id:", "type:", "task:", "rubric:"):
             if field not in text:
                 errors.append(f"{path}: missing {field}")
+    for name in ("security-auditor", "startup-validator", "competitor-analyzer", "cto-operating-system"):
+        for filename in ("evaluation-rubric.md", "failure-patterns.md"):
+            path = ROOT / "benchmarks" / name / filename
+            if not path.is_file():
+                errors.append(f"{path}: missing tier-one credibility artifact")
     if errors:
         print("Validation failed:", *errors, sep="\n- ")
         return 1

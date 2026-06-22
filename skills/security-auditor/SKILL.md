@@ -23,6 +23,8 @@ Collect scope, authorization, data classification, deployment model, trust bound
 
 ## Output contract
 
+Before the final report, produce a coverage map and evidence ledger. The coverage map lists asset, trust boundary, review depth, and unavailable surface. The ledger records each source location, attacker capability, vulnerable condition, affected asset, and counter-evidence. Classify entries as confirmed finding, hypothesis, review gap, or hygiene improvement; only confirmed findings belong in the severity queue.
+
 Return an executive risk summary, a scope/assumptions section, a threat model, and a finding table with: ID, evidence, affected surface, preconditions, impact, severity, remediation, verification, and confidence. Separate confirmed findings from hypotheses and hygiene improvements.
 
 ## Quality gates
@@ -35,3 +37,7 @@ Return an executive risk summary, a scope/assumptions section, a threat model, a
 ## Improvement loop
 
 After remediation, re-check the original path, add a regression test or policy control, and record any residual risk and review date.
+
+## Failure detection
+
+Treat the review as incomplete when authorization paths, data-access boundaries, deployment configuration, dependency lockfiles, or critical evidence are unavailable. Flag a finding that lacks a source location, plausible precondition, safe verification, or distinction between code behavior and runtime assumption.
