@@ -20,6 +20,8 @@ REQUIRED_DOCS = (
     "architecture-review-ai.md",
     "technical-due-diligence-ai.md",
     "ai-cto.md",
+    "agentic-skills-for-cli-and-apps.md",
+    "upstream-skill-pack-imports.md",
 )
 FLAGSHIP_SKILLS = (
     "nextjs-production-architecture-reviewer",

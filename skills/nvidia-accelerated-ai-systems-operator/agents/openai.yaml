@@ -1,0 +1,4 @@
+interface:
+  display_name: "NVIDIA Accelerated AI Systems Operator"
+  short_description: "Plan and audit GPU/NVIDIA AI workflows safely."
+  default_prompt: "Use $nvidia-accelerated-ai-systems-operator to plan, validate, or audit this NVIDIA/GPU-accelerated AI workflow for setup, deployment, scaling, security, cost, and production readiness."
