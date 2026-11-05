@@ -36,9 +36,18 @@ def reject_nonstandard_constant(value: str) -> None:
     raise EvaluationError(f"Non-finite JSON value is forbidden: {value}")
 
 
+def no_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    obj: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in obj:
+            raise EvaluationError(f"Duplicate JSON field is forbidden: {key}")
+        obj[key] = value
+    return obj
+
+
 def load_json(path: Path) -> Any:
     try:
-        return json.loads(path.read_text(encoding="utf-8"), parse_constant=reject_nonstandard_constant)
+        return json.loads(path.read_text(encoding="utf-8"), parse_constant=reject_nonstandard_constant, object_pairs_hook=no_duplicate_keys)
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise EvaluationError(f"Cannot load JSON file {path}: {exc}") from exc
 
