@@ -10,8 +10,8 @@ This is a public collection of reusable AI-engineering skills and evaluation mat
 
 ## Required verification
 
-- Run \`python scripts/validate.py\`.
-- Run \`python -m unittest discover -s tests -v\`.
+- Run `python scripts/validate.py`.
+- Run `python -m unittest discover -s tests -v`.
 - For evaluation changes, inspect a real scored comparison and its pinned raw output artifacts.
 - Report commands actually executed, their results, and unverified requirements. Do not infer working user-visible behavior from passing unit tests.
 
