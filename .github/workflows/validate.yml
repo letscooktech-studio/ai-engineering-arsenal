@@ -10,10 +10,11 @@ permissions:
 
 jobs:
   skills:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest]
         python-version: ['3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
@@ -24,3 +25,7 @@ jobs:
         run: python scripts/validate.py
       - name: Test evaluation tooling
         run: python -m unittest discover -s tests -v
+      - name: Exercise synthetic example CLI
+        run: |
+          python scripts/score_evaluation.py examples/paired-evaluation/score-example.json
+          python scripts/compare_evaluations.py examples/paired-evaluation/manifest.json
