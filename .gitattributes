@@ -1,0 +1,3 @@
+# Hash-pinned evaluation fixtures require identical bytes on Windows and Linux.
+examples/paired-evaluation/*.txt text eol=lf
+examples/paired-evaluation/*.json text eol=lf
