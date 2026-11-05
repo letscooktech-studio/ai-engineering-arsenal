@@ -45,6 +45,13 @@ class ScorerTests(unittest.TestCase):
             with self.subTest(bad=bad), self.assertRaises(EvaluationError):
                 score(bad)
 
+    def test_reject_duplicate_json_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "score.json"
+            p.write_text('{"accuracy": 4, "accuracy": 10}', encoding="utf-8")
+            with self.assertRaises(EvaluationError):
+                load_json(p)
+
     def test_reject_nonstandard_json_values(self):
         with tempfile.TemporaryDirectory() as tmp:
             p = Path(tmp) / "score.json"
