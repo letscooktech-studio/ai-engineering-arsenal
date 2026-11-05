@@ -1,0 +1,2 @@
+SYNTHETIC EXAMPLE, NOT A MODEL RUN.
+The save method returns success so invoice persistence is correct.

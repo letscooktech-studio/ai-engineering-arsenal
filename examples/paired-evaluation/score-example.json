@@ -1,0 +1,13 @@
+{
+  "accuracy": 5,
+  "evidence": 5,
+  "verification": 5,
+  "actionability": 5,
+  "security": 5,
+  "scalability": 5,
+  "maintainability": 5,
+  "completeness": 5,
+  "risk_awareness": 5,
+  "business_impact": 5,
+  "user_value": 5
+}

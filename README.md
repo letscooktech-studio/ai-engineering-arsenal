@@ -150,3 +150,8 @@ Developed by the LetsCookTech Open Source Team.
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+
+## Executable rubric comparisons (experimental)
+
+The repository now includes a dependency-free strict rubric scorer, artifact-hash checked baseline-versus-skill comparison, and automated regression tests. Run `python -m unittest discover -s tests -v` and read [Runnable paired evaluations](docs/RUNNABLE-EVALUATIONS.md) before interpreting results. The included example is **synthetic**, not a measured benchmark win.

@@ -1,0 +1,1 @@
+Illustrative task only: review a fictional invoice-saving function for missing persistence checks.
