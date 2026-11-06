@@ -31,6 +31,18 @@ Add `--sqlite-sum amount_cents 750` to the witness command to require an exact s
 
 To reproduce one persisted row with the wrong amount, start the demo with `--variant fixed --wrong-ledger-amount --show-witness-path --port 8765`. Use the printed path and the same v2 webhook contract with both witness flags. HTTP and count pass, but the integer sum fails. Restart without `--wrong-ledger-amount` to verify the corrected variant.
 
-For a single expected row the sum checks that row's integer value. A sum across multiple rows does not establish each row's amount, ownership, or status. Non-SQLite data, cross-service consistency, and production behavior need separate evidence.
+## Verify exact fields on one row
+
+Require count `1` and repeat `--sqlite-field COLUMN JSON` for up to eight approved visible columns. Each literal is a JSON string, signed 64-bit integer, or null. SQLite storage types must match exactly, and text comparison is case-sensitive even on a case-insensitive column. Use a disposable account or tenant label.
+
+For example, append the following flags to the approved witness command when your test ledger has these columns. This is POSIX shell syntax. For PowerShell, pass the same JSON strings as discrete arguments from Python or your test runner.
+
+```sh
+--sqlite-field owner '"tenant-a"' --sqlite-field status '"posted"' --sqlite-field reversed_at null
+```
+
+You can combine field checks with `--sqlite-sum`. The count, sum, and field comparisons use the same read snapshot. The receipt's `exact_fields` statuses follow argument order and omit values. Missing columns make the witness unavailable. A wrong stored type or value fails the exact assertion. See [the test fixture](../tests/test_sqlite_exact_fields.py) for an executable example with a case-insensitive owner column.
+
+For a single expected row the sum checks that row's integer value. A sum across multiple rows does not establish each row's amount, ownership, or status. Exact field checks currently require a single matched row. Non-SQLite data, cross-service consistency, and production behavior need separate evidence.
 
 The witness requires SQLite 3.37 or newer for table inspection. References checked November 6, 2026. [SQLite URI modes](https://www.sqlite.org/uri.html) · [SQLite table inspection](https://www.sqlite.org/pragma.html#pragma_table_list) · [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html)
