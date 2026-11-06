@@ -28,7 +28,7 @@ class StatefulHTTPTests(unittest.TestCase):
             self.exercise_both_variants(executable, directory)
 
     def exercise_both_variants(self, executable, directory):
-        for contract in (WEBHOOK, INVOICE):
+        for contract in (WEBHOOK, INVOICE, V2 / "inventory-rejection.json"):
             hashes = set()
             runs = set()
             for variant, verdict, code in (("broken", "FAIL", 1), ("fixed", "PASS", 0)):
@@ -49,6 +49,9 @@ class StatefulHTTPTests(unittest.TestCase):
                             if contract == WEBHOOK:
                                 self.assertEqual(result["step_results"][-2]["observed_status"], 400)
                                 self.assertEqual(result["executed_assertions"], 7)
+                            if contract.name == "inventory-rejection.json":
+                                self.assertEqual(result["step_results"][-2]["observed_status"], 409)
+                                self.assertEqual(result["executed_assertions"], 4)
                             if verdict == "PASS":
                                 self.assertEqual(result["skipped_assertions"], 0)
                             if executable:
@@ -198,3 +201,17 @@ class StatefulHTTPTests(unittest.TestCase):
                 self.assertEqual(code, 0)
                 self.assertEqual(requests[1:], [f"Bearer {token}"] * 4)
                 self.assertNotIn(token, stdout.getvalue() + stderr.getvalue())
+
+
+    def test_inventory_rejects_invalid_quantity_without_mutating_stock(self):
+        from risk_lab.http_verify import request
+
+        with demo_server("broken") as server, serving(server):
+            for quantity in (True, -1, 6):
+                status, _, _ = request(server.server_port, {
+                    "method": "POST", "path": "/v1/reservations",
+                    "json": {"sku": "fixture-sku", "quantity": quantity},
+                })
+                self.assertEqual(status, 400)
+            _, _, raw = request(server.server_port, {"method": "GET", "path": "/v1/inventory/fixture-sku"})
+            self.assertEqual(json.loads(raw), {"available": 5})

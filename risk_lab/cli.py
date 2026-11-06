@@ -40,7 +40,14 @@ def main(argv=None):
                  source=f"examples/http/{key}.json",
                  stateful_source=f"examples/http/v2/{key}.json",
                  limitations="Sequential disposable fixture; no production or provider coverage")
-            for key, spec in sorted(CONTRACTS.items())]}
+            for key, spec in sorted(CONTRACTS.items())] + [{
+                "schema_version": 2,
+                "id": "inventory-rejection-atomicity",
+                "invariant": "Rejecting an oversize reservation leaves available stock unchanged",
+                "adapters": ["localhost-http"],
+                "stateful_source": "examples/http/v2/inventory-rejection.json",
+                "limitations": "Sequential single-SKU fixture; no concurrency or warehouse integration",
+            }]}
     elif args.command == "doctor":
         if not args.project.is_dir():
             result, code = {"verdict": "INVALID", "error_class": "project_directory_unavailable"}, 3

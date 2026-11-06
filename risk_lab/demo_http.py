@@ -22,6 +22,8 @@ def demo_server(variant, port=0):
         apply = fixtures.apply_webhook_broken if variant == "broken" else fixtures.apply_webhook_fixed
         save = fixtures.save_invoice_broken if variant == "broken" else fixtures.save_invoice_fixed
         events = {}
+        with closing(sqlite3.connect(invoice)) as db, db:
+            db.execute("CREATE TABLE inventory (sku TEXT PRIMARY KEY, available INTEGER NOT NULL)")
 
         class Handler(BaseHTTPRequestHandler):
             def setup(self):
@@ -39,14 +41,29 @@ def demo_server(variant, port=0):
                 self.end_headers()
                 self.wfile.write(raw)
 
+            def reserve_stock(self, body):
+                require(type(body) is dict and set(body) == {"sku", "quantity"})
+                sku, quantity = body["sku"], body["quantity"]
+                require(matches(ID, sku) and type(quantity) is int and 0 < quantity <= 5)
+                with closing(sqlite3.connect(invoice)) as db, db:
+                    db.execute("INSERT OR IGNORE INTO inventory VALUES (?, 5)", (sku,))
+                    available = db.execute("SELECT available FROM inventory WHERE sku=?", (sku,)).fetchone()[0]
+                    accepted = quantity <= available
+                    if accepted or variant == "broken":
+                        db.execute("UPDATE inventory SET available = available - ? WHERE sku=?", (quantity, sku))
+                self.send_json(200 if accepted else 409, {"accepted": accepted})
+
             def do_POST(self):
-                if self.path not in ("/v1/events", "/v1/invoices"):
+                if self.path not in ("/v1/events", "/v1/invoices", "/v1/reservations"):
                     self.send_json(404, {})
                     return
                 try:
                     size = int(self.headers.get("Content-Length", "0"))
                     require(0 < size <= 16384 and self.headers.get_content_type() == "application/json")
                     body = decode(self.rfile.read(size))
+                    if self.path == "/v1/reservations":
+                        self.reserve_stock(body)
+                        return
                     is_event = self.path == "/v1/events"
                     key = "event_id" if is_event else "customer"
                     require(type(body) is dict and set(body) == {key, "invoice_id", "amount_cents"})
@@ -70,7 +87,7 @@ def demo_server(variant, port=0):
                 self.send_json(200, {"accepted": True, **({"event_id": name} if is_event else {})})
 
             def do_GET(self):
-                route = re.fullmatch(rf"/v1/(ledger|invoices)/({ID})", self.path)
+                route = re.fullmatch(rf"/v1/(ledger|invoices|inventory)/({ID})", self.path)
                 if not route:
                     self.send_json(404, {})
                     return
@@ -83,6 +100,10 @@ def demo_server(variant, port=0):
                         keys = ("credited_cents", "ledger_rows")
                         if row is None and re.fullmatch(r"[0-9a-f]{32}", invoice_id):
                             row = (0, 0)
+                    elif kind == "inventory":
+                        row = db.execute("SELECT available FROM inventory WHERE sku=?", (invoice_id,)).fetchone()
+                        row = row or (5,)
+                        keys = ("available",)
                     else:
                         row = db.execute("SELECT id, amount_cents FROM invoices WHERE id=?",
                                          (invoice_id,)).fetchone()
