@@ -31,15 +31,33 @@ def sum_definition(arguments):
     return column, int(expected)
 
 
-def fingerprint(spec, amount=None):
+def field_definitions(arguments):
+    require(len(arguments) <= 8)
+    fields = {}
+    for column, literal in arguments:
+        require_identifier(column)
+        require(column.lower() not in fields and len(literal) <= 1024)
+        value = json.loads(literal)
+        require(type(value) in (int, str, type(None)))
+        if type(value) is int:
+            require(-(2 ** 63) <= value < 2 ** 63)
+        if type(value) is str:
+            require(len(value.encode("utf-8")) <= 256)
+        fields[column.lower()] = (column, value)
+    return tuple(fields.values())
+
+
+def fingerprint(spec, amount=None, exact_fields=()):
     path, table, key, expected = spec
     fields = [str(path), table, key, expected]
     if amount is not None:
         fields.append(amount)
+    if exact_fields:
+        fields.append({"exact_fields": exact_fields})
     return sha256(json.dumps(fields).encode()).hexdigest()
 
 
-def count_rows(spec, run_id, identity=None, amount=None):
+def count_rows(spec, run_id, identity=None, amount=None, exact_fields=()):
     path, table, key, expected = spec
     require(path.resolve(strict=True) == path and not str(path).startswith(("//", "\\\\")))
     info = path.stat()
@@ -65,23 +83,33 @@ def count_rows(spec, run_id, identity=None, amount=None):
         ).fetchone() is not None)
         predicate = f"""FROM main."{table}" WHERE "{key}" COLLATE BINARY = ? AND typeof("{key}") = 'text' LIMIT ?"""
         parameters = (run_id, max(expected, 1) + 1)
-        if amount is None:
+        if amount is None and not exact_fields:
             count = db.execute(f"SELECT count(*) FROM (SELECT 1 {predicate})", parameters).fetchone()[0]
         else:
-            column, _ = amount
-            require(db.execute(
-                "SELECT 1 FROM pragma_table_xinfo(?, 'main') WHERE name=? AND hidden=0", (table, column)
-            ).fetchone() is not None)
-            # Bound rows and sum Python integers exactly without SQLite SUM overflow.
-            rows = db.execute(
-                f"""SELECT CASE WHEN typeof("{column}") = 'integer' THEN "{column}" END {predicate}""",
-                parameters,
-            ).fetchall()
+            columns = ([amount[0]] if amount else []) + [column for column, _ in exact_fields]
+            for column in columns:
+                require(db.execute(
+                    "SELECT 1 FROM pragma_table_xinfo(?, 'main') WHERE name=? AND hidden=0", (table, column)
+                ).fetchone() is not None)
+            # The SQL returns bounded integers and comparison flags, never raw text or blobs.
+            projections = []
+            bindings = []
+            if amount:
+                column = amount[0]
+                projections.append(f"""CASE WHEN typeof("{column}") = 'integer' THEN "{column}" END""")
+            for column, value in exact_fields:
+                projections.append(f'typeof("{column}") = ? AND "{column}" COLLATE BINARY IS ?')
+                bindings.extend(({int: "integer", str: "text", type(None): "null"}[type(value)], value))
+            rows = db.execute(f"SELECT {', '.join(projections)} {predicate}", (*bindings, *parameters)).fetchall()
             count = len(rows)
             total = None
-            if count == expected and all(type(row[0]) is int for row in rows):
+            if amount and count == expected and all(type(row[0]) is int for row in rows):
                 total = sum(row[0] for row in rows)
-            count = count, total
+            if exact_fields:
+                matches_fields = tuple(bool(value) for value in rows[0][int(bool(amount)):]) if count == 1 else ()
+                count = count, total, matches_fields
+            else:
+                count = count, total
     info = path.stat()
     require((info.st_dev, info.st_ino) == current)
     return current, count
