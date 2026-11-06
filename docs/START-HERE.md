@@ -33,4 +33,4 @@ Restart the disposable server for each run. To check invoice persistence, use `e
 
 Copy an example and set the endpoints, test payload and expected business state to match your authorized local dev API. Use a fresh test database and dummy identifiers. The write flag permits real state changes on the selected service. Even GET can mutate state if the service implements it that way. Use `--json` for a scoped receipt.
 
-See the [contract and safety rules](PRODUCTION-RISK-LAB.md), [contributing guide](../CONTRIBUTING.md), and [issue tracker](https://github.com/letscooktech-studio/ai-engineering-arsenal/issues).
+See the [contract and safety rules](PRODUCTION-RISK-LAB.md), [contributing guide](../CONTRIBUTING.md), and [issue tracker](https://github.com/letscooktech-studio/outcomelab/issues).
