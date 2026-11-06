@@ -1,5 +1,5 @@
 name: Reproducible production-risk scenario
-about: Propose an independently useful, safe negative-control acceptance scenario
+description: Propose an independently useful, safe negative-control acceptance scenario
 labels: []
 body:
   - type: markdown

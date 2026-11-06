@@ -6,6 +6,7 @@ This engine does not execute third-party repositories, arbitrary commands, or LL
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
+from contextlib import closing
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -59,7 +60,7 @@ def _run_webhook(label: str, handler: Callable, root: Path) -> Observation:
     path = root / f"{label}.sqlite"
     fixtures.initialize_webhook_db(path)
     results = [handler(path, "evt-123", "inv-demo", 750), handler(path, "evt-123", "inv-demo", 750)]
-    with sqlite3.connect(path) as connection:
+    with closing(sqlite3.connect(path)) as connection:
         paid = connection.execute("SELECT credited_cents FROM invoices WHERE id='inv-demo'").fetchone()[0]
         ledger = connection.execute("SELECT COUNT(*) FROM ledger").fetchone()[0]
         unique = connection.execute("SELECT COUNT(*) FROM processed_events").fetchone()[0]
@@ -72,7 +73,7 @@ def _run_persistence(label: str, handler: Callable, root: Path) -> Observation:
     path = root / f"{label}.sqlite"
     fixtures.initialize_invoice_db(path)
     acknowledged = handler(path, "inv-123", "Test Customer", 1250)
-    with sqlite3.connect(path) as reopened_connection:
+    with closing(sqlite3.connect(path)) as reopened_connection:
         row = reopened_connection.execute("SELECT id, customer, amount_cents FROM invoices WHERE id=?", ("inv-123",)).fetchone()
     valid = acknowledged is True and row == ("inv-123", "Test Customer", 1250)
     measurements: dict[str, int | bool | str] = {"acknowledged": acknowledged, "row_found_after_reopen": row is not None}

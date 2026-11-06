@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import contextlib
+from contextlib import closing
 from io import StringIO
 import json
 import sqlite3
@@ -72,7 +73,7 @@ class ProductionRiskLabTests(unittest.TestCase):
             for invoice, amount in (("inv-demo", 999), ("other", 750)):
                 with self.subTest(invoice=invoice, amount=amount), self.assertRaises(ValueError):
                     fixtures.apply_webhook_fixed(db, "evt-123", invoice, amount)
-            with sqlite3.connect(db) as cx:
+            with closing(sqlite3.connect(db)) as cx:
                 self.assertEqual(cx.execute("SELECT COUNT(*) FROM ledger").fetchone()[0], 1)
                 self.assertEqual(cx.execute("SELECT credited_cents FROM invoices WHERE id='inv-demo'").fetchone()[0], 750)
 
@@ -82,7 +83,7 @@ class ProductionRiskLabTests(unittest.TestCase):
             fixtures.initialize_webhook_db(db)
             with self.assertRaises(ValueError):
                 fixtures.apply_webhook_fixed(db, "evt-missing", "does-not-exist", 750)
-            with sqlite3.connect(db) as cx:
+            with closing(sqlite3.connect(db)) as cx:
                 self.assertEqual(cx.execute("SELECT COUNT(*) FROM processed_events").fetchone()[0], 0)
 
     def test_all_results_include_digest_and_limitations(self):
