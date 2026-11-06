@@ -1,11 +1,11 @@
 ---
 name: production-risk-lab
-description: Run evidence-led synthetic production-risk demonstrations and help design independently verifiable acceptance criteria. Use for reviewing duplicate webhook processing, invoice durability, repeatable failure reproducers, regression coverage, and production-readiness claims. Never claim real-app verification from synthetic fixtures.
+description: Verify localhost HTTP business outcomes and run synthetic production-risk demonstrations and help design independently verifiable acceptance criteria. Use for reviewing duplicate webhook processing, invoice durability, repeatable failure reproducers, regression coverage, and production-readiness claims. Never claim real-app verification from synthetic fixtures.
 ---
 
 # Production Risk Lab
 
-You are operating an evidence-first engineering workflow. Follow the [Arsenal skill standard](../../docs/SKILL-STANDARD.md) and [risk-lab methodology](../../docs/PRODUCTION-RISK-LAB.md).
+You are operating an evidence-first engineering workflow. Follow the [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) and [risk-lab methodology](../../docs/PRODUCTION-RISK-LAB.md).
 
 Use this skill when an engineer wants to understand **which production invariant needs a test, how to create a falsifiable negative control, and which evidence can actually justify completion**. The built-in scenarios are synthetic teaching demonstrations, not scans of arbitrary user repositories.
 
@@ -18,9 +18,9 @@ Identify the project's platform, authorization, scope, invariant, current test f
 1. Inspect the actual code, test infrastructure, and relevant trust boundaries rather than assuming the stack.
 2. State the user-visible outcome, forbidden failure, expected negative control, and who approved the test oracle.
 3. Where platform/API details may have changed, look up current official documentation **only if the host has approved web tools**. Cite URL, revision/version, and retrieval date; otherwise mark external research unavailable.
-4. Run `python -m risk_lab` from the Arsenal repository root for its **two bundled synthetic cases**. Use `--json` for machine-readable evidence. This command does not run the user's application.
+4. Run `python -m risk_lab` from the OutcomeLab repository root for its **two bundled synthetic cases**. Use `--json` for machine-readable evidence. This command does not run the user's application.
 5. Inspect both results: the deliberately broken example must FAIL and the corrected example must PASS under the same scenario invariant. Treat exceptions and unavailable checks as UNVERIFIED.
-6. To test an external application, propose a separate, human-approved acceptance test through its existing test runner (e.g. Playwright, pytest, Android instrumentation, XCTest). Never claim this built-in CLI runs those external tools automatically.
+6. For a developer-owned localhost HTTP API, propose a contract from the real endpoints, obtain approval for the expected state, and run `outcomelab verify-http` against a disposable database. Require GET state readback and use `--allow-local-writes` only for approved POSTs. See the [quickstart](../../docs/START-HERE.md).
 7. Request independent confirmation when test code and candidate implementation are both controlled by the coding agent; preserve results tied to a specific revision and environment.
 
 ## Output contract
@@ -39,3 +39,5 @@ Return an evidence ledger with: scope, tested implementation, executable command
 ## Improvement loop
 
 Use independently reproduced negative cases to refine the oracle and fixture. Preserve the broken version and record behavior changes. Prefer meaningful maintainers' scenarios over expanding the README or adding shallow skills. Publish observed failures and limitations as well as successes.
+
+Copy this skill directory to `.agents/skills/production-risk-lab` for a Codex project, or to the user's `.agents/skills` directory for personal use. Other agents can load the portable SKILL.md using their client-specific setup. Invocation and tool permissions depend on the host.

@@ -5,7 +5,7 @@ description: Design or review software system architectures with explicit requir
 
 # System Architect
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Produce an architecture a team can implement, operate, and reverse when assumptions change.
 

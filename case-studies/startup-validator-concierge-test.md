@@ -1,5 +1,7 @@
 # Startup Validator: concierge-test decision
 
+Illustrative scenario with fictional inputs.
+
 ## Scenario
 
 A founder wants an AI weekly-reporting product for agency owners. The only evidence is three enthusiastic conversations and a landing-page idea.

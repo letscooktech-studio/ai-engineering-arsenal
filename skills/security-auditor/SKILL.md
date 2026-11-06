@@ -5,7 +5,7 @@ description: Perform evidence-led security reviews of applications, APIs, infras
 
 # Security Auditor
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Turn an authorized system or codebase into a prioritized security decision record. Do not claim a vulnerability without a reproducible code path, configuration evidence, or an explicitly stated assumption.
 

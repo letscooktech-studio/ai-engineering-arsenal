@@ -1,10 +1,10 @@
 # Skill proof pack template
 
-Use this template when graduating a skill from "useful playbook" to "trusted AI Engineering Arsenal asset."
+Use this template when graduating a skill from "useful playbook" to "trusted OutcomeLab asset."
 
 Required files:
 
-- `BENCHMARK.md`: reproducible baseline-vs-AI Engineering Arsenal protocol.
+- `BENCHMARK.md`: reproducible baseline-vs-OutcomeLab protocol.
 - `RUBRIC.md`: scoring criteria and weights.
 - `CASE_STUDY.md`: safe demonstration with inputs, output, and lessons.
 - `FAILURE_PATTERNS.md`: known misses and anti-patterns.

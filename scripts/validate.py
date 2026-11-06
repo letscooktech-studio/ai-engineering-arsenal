@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dependency-free structural checks for AI Engineering Arsenal skills and evaluation cases."""
+"""Dependency-free structural checks for OutcomeLab skills and evaluation cases."""
 from pathlib import Path
 import re
 import sys
@@ -82,7 +82,7 @@ def main() -> int:
     for filename in REQUIRED_DOCS:
         path = ROOT / "docs" / filename
         if not path.is_file():
-                errors.append(f"{path}: missing AI Engineering Arsenal trust-system document")
+                errors.append(f"{path}: missing OutcomeLab trust-system document")
     for filename in ("BENCHMARK.md", "RUBRIC.md", "CASE_STUDY.md", "FAILURE_PATTERNS.md", "EVALUATION.md", "EXAMPLES.md"):
         path = ROOT / "templates" / "skill-proof-pack" / filename
         if not path.is_file():

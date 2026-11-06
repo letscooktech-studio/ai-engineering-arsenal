@@ -1,12 +1,12 @@
 # Market domination research
 
-This document records the current competitive thesis for AI Engineering Arsenal. It should be refreshed before major launches because AI tooling, model capabilities, and GitHub attention shift quickly.
+This document records the current competitive thesis for OutcomeLab. It should be refreshed before major launches because AI tooling, model capabilities, and GitHub attention shift quickly.
 
 Developed by the LetsCookTech Open Source Team.
 
 ## Landscape
 
-| Category | Strength | Weakness | Adoption driver | Opportunity for AI Engineering Arsenal |
+| Category | Strength | Weakness | Adoption driver | Opportunity for OutcomeLab |
 | --- | --- | --- | --- | --- |
 | Claude Skills / Projects | Easy packaging of reusable workflows | Often model/platform-specific | Immediate productivity in Claude workflows | Stay model-portable and benchmarked |
 | Cursor / Windsurf rules | Embedded in daily coding | Often shallow style/instruction files | Developer habit loop inside IDE | Provide proof-backed engineering playbooks that can be copied into IDEs |
@@ -59,7 +59,7 @@ Developed by the LetsCookTech Open Source Team.
 
 ## Strategic position
 
-Do not market AI Engineering Arsenal as "AI skills." Market it as:
+Do not market OutcomeLab as "AI skills." Market it as:
 
 > Open Source AI CTO: production playbooks that catch what normal AI misses.
 

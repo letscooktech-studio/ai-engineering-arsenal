@@ -1,4 +1,4 @@
-# Release plan — first runnable AI Engineering Arsenal release
+# Release plan — first runnable OutcomeLab release
 
 ## Preconditions (must be verified)
 
@@ -12,7 +12,7 @@
 ## Suggested first GitHub Release
 
 Tag: `v0.1.0` (only if tag is not already in use)
-Title: `AI Engineering Arsenal v0.1.0 — First executable risk scenarios`
+Title: `OutcomeLab v0.1.0 — First executable risk scenarios`
 Description: `First public runnable negative-control scenarios for duplicate webhook processing and invoice persistence, with a portable agent skill, machine-readable evidence and Linux/Windows CI. Both scenarios are synthetic demonstrations, not production security assessments or measured AI model benchmarks.`
 
 Release only through a maintainer-authorized workflow after reviewing the corresponding commit. Never claim external adoption in the release notes.

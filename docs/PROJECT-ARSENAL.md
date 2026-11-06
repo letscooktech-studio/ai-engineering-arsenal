@@ -1,4 +1,4 @@
-# AI Engineering Arsenal: product thesis
+# OutcomeLab: product thesis
 
 Developed by the LetsCookTech Open Source Team.
 
@@ -8,7 +8,7 @@ Become the default open-source layer for repeatable AI-assisted engineering deci
 
 ## Market view
 
-AI configuration formats—skills, projects, rules, modes, assistants, MCP integrations, and agent frameworks—address a common need: portable task context and reliable procedures. Most repositories optimize for collection size or novelty. AI Engineering Arsenal optimizes for evidence, evaluation, safety, and upkeep.
+AI configuration formats—skills, projects, rules, modes, assistants, MCP integrations, and agent frameworks—address a common need: portable task context and reliable procedures. Most repositories optimize for collection size or novelty. OutcomeLab optimizes for evidence, evaluation, safety, and upkeep.
 
 ### Ecosystem snapshot (2026-06-22)
 

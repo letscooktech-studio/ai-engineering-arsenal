@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-AI Engineering Arsenal skills are Markdown-first operating frameworks for CLI agents, app agents, IDE agents, and future agentic development environments.
+OutcomeLab skills are Markdown-first operating frameworks for CLI agents, app agents, IDE agents, and future agentic development environments.
 
 ## Target clients
 

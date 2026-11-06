@@ -2,9 +2,9 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-AI code review is the use of AI systems to inspect code for correctness, security, maintainability, performance, architecture, cost, and production-readiness risks. AI Engineering Arsenal treats AI code review as an evidence-led engineering workflow, not a generic checklist.
+AI code review is the use of AI systems to inspect code for correctness, security, maintainability, performance, architecture, cost, and production-readiness risks. OutcomeLab treats AI code review as an evidence-led engineering workflow, not a generic checklist.
 
-## Use AI Engineering Arsenal for
+## Use OutcomeLab for
 
 - security audit workflows;
 - Next.js architecture review;

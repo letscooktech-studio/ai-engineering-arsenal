@@ -1,6 +1,6 @@
 # Runnable paired evaluations (experimental)
 
-AI Engineering Arsenal can now score human-reviewed rubric dimensions with strict input validation and compare two **hash-pinned raw agent output artifacts**. The tool does not run a model or claim to objectively measure AI reliability.
+OutcomeLab can now score human-reviewed rubric dimensions with strict input validation and compare two **hash-pinned raw agent output artifacts**. The tool does not run a model or claim to objectively measure AI reliability.
 
 ## Use
 
@@ -18,7 +18,7 @@ python scripts/compare_evaluations.py examples/paired-evaluation/manifest.json
 ## Preparing a real comparison
 
 1. Select a sanitized task and define its expected outcome independently of model output.
-2. Run the same model/version and controls twice: baseline, then with the candidate Arsenal skill. Record exact configuration and run logs.
+2. Run the same model/version and controls twice: baseline, then with the candidate OutcomeLab skill. Record exact configuration and run logs.
 3. Save each raw response to a separate nonempty text file, no larger than 10 MiB.
 4. Have an independent reviewer score the 11 dimensions, 0–10, and preserve their notes.
 5. Record SHA-256 of the original input task and both raw outputs; fill the manifest with the real control values and evaluator identifier.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Agentic Skill Pack Integrator"
-  short_description: "Convert external skill packs into Arsenal frameworks."
+  short_description: "Convert external skill packs into OutcomeLab frameworks."
   default_prompt: "Use $agentic-skill-pack-integrator to import or upgrade this skill pack for Codex, Claude Code, Cursor, Windsurf, Cline, Roo, Aider, ChatGPT, Gemini, and Antigravity-style agentic IDE usage."

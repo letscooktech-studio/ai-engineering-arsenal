@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "outcomelab"
+version = "0.2.0.dev0"
+description = "Verify business outcomes against disposable local HTTP services"
+requires-python = ">=3.11"
+
+[project.scripts]
+outcomelab = "risk_lab.cli:main"
+arsenal-risk = "risk_lab.cli:main"
+
+[tool.setuptools]
+packages = ["risk_lab"]

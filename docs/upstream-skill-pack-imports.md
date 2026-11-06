@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-Imported packs should become Arsenal-compatible frameworks with proof, safety, and client compatibility.
+Imported packs should become OutcomeLab-compatible frameworks with proof, safety, and client compatibility.
 
 ## NVIDIA Agent Skills zip review
 
@@ -23,7 +23,7 @@ Detected domains:
 - physical AI infrastructure setup and resilient scaling
 - physical AI neural reconstruction
 
-## Arsenal adaptation
+## OutcomeLab adaptation
 
 Added:
 

@@ -5,7 +5,7 @@ description: Analyze direct, adjacent, and substitute competitors using verifiab
 
 # Competitor Analyzer
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Build a decision-ready view of customer alternatives, not a feature checklist.
 

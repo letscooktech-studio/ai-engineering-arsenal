@@ -1,13 +1,13 @@
 ---
 name: agentic-skill-pack-integrator
-description: Convert external AI skill packs, prompt packs, Claude skills, Codex skills, Cursor rules, Windsurf rules, Cline/Roo workflows, and CLI agent instructions into AI Engineering Arsenal-compatible skill frameworks with metadata, safety gates, evaluation rubrics, benchmark plans, and compatibility notes. Use when importing or upgrading skill collections for Codex, Claude Code, ChatGPT, Gemini, Cursor, Windsurf, Cline, Roo Code, Aider, or Antigravity-style agentic IDEs.
+description: Convert external AI skill packs, prompt packs, Claude skills, Codex skills, Cursor rules, Windsurf rules, Cline/Roo workflows, and CLI agent instructions into OutcomeLab-compatible skill frameworks with metadata, safety gates, evaluation rubrics, benchmark plans, and compatibility notes. Use when importing or upgrading skill collections for Codex, Claude Code, ChatGPT, Gemini, Cursor, Windsurf, Cline, Roo Code, Aider, or Antigravity-style agentic IDEs.
 ---
 
 # Agentic Skill Pack Integrator
 
 Developed by the LetsCookTech Open Source Team.
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Turn raw skill packs into portable, production-grade AI operating skills. Preserve license requirements, remove filler, normalize metadata, add safety boundaries, and create evaluation paths.
 
@@ -26,7 +26,7 @@ Turn raw skill packs into portable, production-grade AI operating skills. Preser
 
 Return source inventory, imported skills, wrapper skills, skipped files with reasons, license notes, client compatibility matrix, safety boundaries, benchmark plan, validation result, and next improvement list.
 
-When writing repository files, create only maintainable Arsenal assets. Do not commit extracted archives, private certs, vendor caches, generated lock noise, or unreviewed large assets.
+When writing repository files, create only maintainable OutcomeLab assets. Do not commit extracted archives, private certs, vendor caches, generated lock noise, or unreviewed large assets.
 
 ## Quality gates
 

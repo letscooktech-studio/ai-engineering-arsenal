@@ -1,6 +1,6 @@
-# AI Engineering Arsenal repository audit
+# OutcomeLab repository audit
 
-This audit converts the repository from a collection of playbooks into a trust system. The core risk is not that AI Engineering Arsenal has too few skills. The risk is that it publishes impressive text without proving repeatable value.
+This audit converts the repository from a collection of playbooks into a trust system. The core risk is not that OutcomeLab has too few skills. The risk is that it publishes impressive text without proving repeatable value.
 
 Developed by the LetsCookTech Open Source Team.
 
@@ -18,7 +18,7 @@ Developed by the LetsCookTech Open Source Team.
 
 ## Critical weaknesses
 
-1. AI Engineering Arsenal still has more standards than public proof. Users trust results, not promises.
+1. OutcomeLab still has more standards than public proof. Users trust results, not promises.
 2. Several skills are useful but not yet surrounded by runnable benchmark artifacts.
 3. The repo can look like a prompt repository unless README, examples, and benchmarks keep emphasizing measured outcomes.
 4. Market research is directional, not continuously refreshed with live star counts and competitor release changes.
@@ -55,8 +55,8 @@ Before adding a new skill, remove or rewrite any existing skill that lacks:
 
 ## Next proof priorities
 
-1. Create baseline and AI Engineering Arsenal outputs for `security-auditor` using `evals/security-auditor/ordinary`.
+1. Create baseline and OutcomeLab outputs for `security-auditor` using `evals/security-auditor/ordinary`.
 2. Add expected-risk inventories to all tier-one evals.
-3. Score outputs with the AI Engineering Arsenal Evaluation Standard.
-4. Publish a transparent comparison table even when AI Engineering Arsenal loses on a dimension.
+3. Score outputs with the OutcomeLab Evaluation Standard.
+4. Publish a transparent comparison table even when OutcomeLab loses on a dimension.
 5. Use real public demo apps only when authorization and license boundaries are clean.

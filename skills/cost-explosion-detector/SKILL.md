@@ -5,7 +5,7 @@ description: Detect and prevent cloud, SaaS, data, and AI cost escalation using 
 
 # Cost Explosion Detector
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Trace spend to its technical and commercial drivers, then install guardrails before the next bill does it for you.
 

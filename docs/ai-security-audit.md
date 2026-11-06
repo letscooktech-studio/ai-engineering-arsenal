@@ -4,7 +4,7 @@ Developed by the LetsCookTech Open Source Team.
 
 An AI security audit uses AI to identify attack paths, weak permissions, secret exposure, authorization bugs, data leakage, dependency risks, prompt injection, tool abuse, cost attacks, and production security gaps.
 
-## Arsenal security surfaces
+## OutcomeLab security surfaces
 
 - application security: [`security-auditor`](../skills/security-auditor)
 - Next.js security: [`nextjs-production-architecture-reviewer`](../skills/nextjs-production-architecture-reviewer)

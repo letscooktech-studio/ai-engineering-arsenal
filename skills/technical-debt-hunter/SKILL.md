@@ -5,7 +5,7 @@ description: Find, size, and prioritize technical debt from code, delivery, reli
 
 # Technical Debt Hunter
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Find debt that changes delivery, reliability, cost, or risk—not merely code that looks old.
 

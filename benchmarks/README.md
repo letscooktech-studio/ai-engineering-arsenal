@@ -1,16 +1,16 @@
 # Benchmarks
 
-This directory is where AI Engineering Arsenal earns claims. A case study shows how a playbook behaves; a benchmark compares it with a baseline under controlled conditions. Do not treat an illustrative case study as performance evidence.
+This directory is where OutcomeLab earns claims. A case study shows how a playbook behaves; a benchmark compares it with a baseline under controlled conditions. Do not treat an illustrative case study as performance evidence.
 
 ## Run protocol
 
-For each case, run the same model/version, tools, system context, temperature, token budget, input artifact, and output budget twice: once with a minimal direct task (baseline), then with the Arsenal skill. Preserve raw outputs. Have an independent evaluator score them blind against the task rubric.
+For each case, run the same model/version, tools, system context, temperature, token budget, input artifact, and output budget twice: once with a minimal direct task (baseline), then with the OutcomeLab skill. Preserve raw outputs. Have an independent evaluator score them blind against the task rubric.
 
 Publish the run date, provider/model, all controls, raw scores, evaluator agreement, cost, latency, limitations, and negative results. Do not pool different models or change the task between runs.
 
 ## Required result table
 
-| Dimension | Baseline | AI Engineering Arsenal | Notes |
+| Dimension | Baseline | OutcomeLab | Notes |
 | --- | ---: | ---: | --- |
 | Evidence fidelity |  |  |  |
 | Decision usefulness |  |  |  |

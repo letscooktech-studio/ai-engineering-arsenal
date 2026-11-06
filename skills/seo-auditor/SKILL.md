@@ -5,7 +5,7 @@ description: Audit technical SEO, information architecture, content quality, and
 
 # SEO Auditor
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Diagnose search performance from crawlability through conversion, with claims tied to evidence.
 

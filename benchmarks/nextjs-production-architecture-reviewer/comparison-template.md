@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-| Category | Default AI | Arsenal | Winner | Notes |
+| Category | Default AI | OutcomeLab | Winner | Notes |
 | --- | --- | --- | --- | --- |
 | Critical risks found |  |  |  |  |
 | High risks found |  |  |  |  |
@@ -19,6 +19,6 @@ Developed by the LetsCookTech Open Source Team.
 Final score:
 
 - Default AI:
-- Arsenal:
+- OutcomeLab:
 - Confidence:
 - Limitations:

@@ -5,7 +5,7 @@ description: Improve source content for accurate discovery and citation by AI an
 
 # AI Search Optimizer
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Make useful claims easy to retrieve, verify, quote, and keep current.
 

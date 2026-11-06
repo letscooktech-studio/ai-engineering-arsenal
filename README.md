@@ -1,55 +1,35 @@
-# AI Engineering Arsenal
+# OutcomeLab
 
-![LetsCookTech Open Source Team banner](assets/letscooktech-open-source-team-banner.png)
+OutcomeLab checks whether a local API produced the expected business result. Send the same webhook twice, then read the ledger to verify that only one credit was recorded.
 
-**Production-grade AI engineering skills, audits, workflows, benchmarks, and evaluation frameworks.**
+Use Python 3.11+ and install in a virtual environment:
 
-The open-source AI engineering framework for architecture reviews, security audits, startup validation, competitor analysis, AI systems design, SEO audits, AI code review, technical due diligence, and technical decision-making.
+```sh
+python -m pip install -e .
+outcomelab catalog
+```
 
-Built for developers, founders, CTOs, technical teams, and AI builders.
+Follow the [two-terminal quickstart](docs/START-HERE.md) to see a broken service fail and a corrected service pass the same contract. Then adapt the contract to your own disposable local API. The verifier connects only to literal IPv4 loopback and requires explicit opt-in for POSTs.
 
-Developed by the LetsCookTech Open Source Team.
-
-## Why use AI Engineering Arsenal instead of asking an AI directly?
-
-Default AI answers are often plausible but hard to trust: they skip evidence, confuse guesses with facts, miss release risks, and leave no test path. AI Engineering Arsenal gives an assistant an operational contract: what to inspect, what to prove, what to refuse, how to verify, and what artifact to hand to a human.
-
-The reputation this project is designed to earn:
-
-> This framework catches things normal AI misses.
-
-AI Engineering Arsenal is currently a library of cross-model operating skills. The long-term direction is an AI engineering operating layer for routing, evaluation, policy, and lifecycle. The current repository is intentionally honest about what exists today.
-
-## What it helps with
-
-- AI code review
-- Security audit AI workflows
-- Architecture review and system design
-- Startup validation
-- Competitor analysis
-- Technical due diligence
-- Engineering playbooks and engineering workflows
-- AI evaluation and benchmark design
-- AI CTO operating rhythms
-- SaaS, Supabase, Next.js, RAG, and AI agent decision-making
+The reference services use temporary SQLite databases. A receipt records a local run for the supplied contract. The case studies and evaluation examples below are illustrative fixtures.
 
 ## Flagship production reviewers
 
-These are the category-defining Arsenal skills. Start here if you want practical value instead of another prompt collection.
+These are the category-defining OutcomeLab skills. Start here if you want practical value instead of another prompt collection.
 
 | Reviewer | What it catches | Best for |
 | --- | --- | --- |
 | [`nextjs-production-architecture-reviewer`](skills/nextjs-production-architecture-reviewer) | Next.js architecture, App Router, Server Actions, performance, SEO, AI-search, security, Vercel cost, Supabase integration, and deployment risks. | Next.js SaaS, AI platforms, ecommerce, dashboards, blogs, marketplaces, agency sites. |
 | [`supabase-production-auditor`](skills/supabase-production-auditor) | RLS bypass, service-role misuse, weak auth, storage exposure, Realtime fan-out, database growth, cost, backups, and production-readiness gaps. | Supabase SaaS, AI apps, mobile apps, internal tools, marketplaces, learning platforms. |
 | [`ai-agent-architecture-reviewer`](skills/ai-agent-architecture-reviewer) | Planning failures, memory risks, tool abuse, MCP risks, prompt injection, hallucination gaps, cost fan-out, observability, and reliability issues. | AI agents, copilots, workflow agents, browser agents, coding agents, research agents, multi-agent systems. |
-| [`agentic-skill-pack-integrator`](skills/agentic-skill-pack-integrator) | Converts external skill packs into safe Arsenal-compatible operating frameworks. | Codex, Claude Code, Cursor, Windsurf, Cline, Roo Code, Aider, ChatGPT, Gemini, Antigravity-style agentic IDEs. |
+| [`agentic-skill-pack-integrator`](skills/agentic-skill-pack-integrator) | Converts external skill packs into safe OutcomeLab-compatible operating frameworks. | Codex, Claude Code, Cursor, Windsurf, Cline, Roo Code, Aider, ChatGPT, Gemini, Antigravity-style agentic IDEs. |
 | [`nvidia-accelerated-ai-systems-operator`](skills/nvidia-accelerated-ai-systems-operator) | Adds safety, validation, cost, and production-readiness review around NVIDIA/GPU accelerated AI workflows. | AI-Q, cuOpt, DALI, Dynamo, NemoClaw, Omniverse, physical AI, GPU infrastructure. |
 
 Each flagship reviewer includes a benchmark rubric and comparison template under [`benchmarks/`](benchmarks) so future claims can be proven with baseline-vs-framework outputs.
 
 ## See the difference
 
-| Without a playbook | With an Arsenal playbook |
+| Without a playbook | With an OutcomeLab playbook |
 | --- | --- |
 | "Add authentication and validate inputs." | Maps assets and trust boundaries; reports evidence, preconditions, impact, remediation, regression tests, confidence, and review gaps. |
 | "Use a queue and a database." | Compares designs, records assumptions and trade-offs, specifies timeouts/retries/rollback, and names the test that validates the decision. |
@@ -96,16 +76,16 @@ These pages are written for GitHub, Google, and AI-search discoverability while 
 
 ## Evidence, not marketing
 
-AI Engineering Arsenal does not claim that a playbook finds more issues, saves money, or outperforms a model until a reproducible result is published. Each benchmark holds model/version, tools, temperature, budget, inputs, rubric, baseline, playbook run, evaluator, and limitations constant. Read the [benchmark protocol](benchmarks/README.md).
+OutcomeLab does not claim that a playbook finds more issues, saves money, or outperforms a model until a reproducible result is published. Each benchmark holds model/version, tools, temperature, budget, inputs, rubric, baseline, playbook run, evaluator, and limitations constant. Read the [benchmark protocol](benchmarks/README.md).
 
 ## Trust system
 
-AI Engineering Arsenal has a repository-level system for improving itself instead of only adding more skills:
+OutcomeLab has a repository-level system for improving itself instead of only adding more skills:
 
 | System | Purpose |
 | --- | --- |
 | [Repository audit](docs/REPOSITORY-AUDIT.md) | Finds weak assets, filler risk, missing proof, and deletion candidates. |
-| [Arsenal constitution](docs/ARSENAL-CONSTITUTION.md) | Defines the laws every contribution must follow. |
+| [OutcomeLab constitution](docs/ARSENAL-CONSTITUTION.md) | Defines the laws every contribution must follow. |
 | [AI CTO operating model](docs/OPERATING-MODEL.md) | Standardizes input, research, verification, risk review, decision, and quality review. |
 | [Evaluation standard](docs/EVALUATION-STANDARD.md) | Scores outputs across accuracy, evidence, verification, actionability, security, and user value. |
 | [Red-team framework](docs/RED-TEAM-FRAMEWORK.md) | Attacks outputs before users trust them. |
@@ -116,7 +96,7 @@ AI Engineering Arsenal has a repository-level system for improving itself instea
 
 ### Is this just a prompt repository?
 
-No. A prompt repository optimizes for copyable text. AI Engineering Arsenal optimizes for evidence, verification, failure detection, benchmarks, and repeatable engineering decisions.
+No. A prompt repository optimizes for copyable text. OutcomeLab optimizes for evidence, verification, failure detection, benchmarks, and repeatable engineering decisions.
 
 ### Is this tied to one AI model?
 

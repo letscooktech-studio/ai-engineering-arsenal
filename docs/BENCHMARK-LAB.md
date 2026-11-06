@@ -1,6 +1,6 @@
 # Benchmark lab
 
-The benchmark lab exists to prove or disprove AI Engineering Arsenal's value. It is not a marketing page.
+The benchmark lab exists to prove or disprove OutcomeLab's value. It is not a marketing page.
 
 Developed by the LetsCookTech Open Source Team.
 
@@ -27,16 +27,16 @@ For early skills, `evaluation-rubric.md` and `failure-patterns.md` are the minim
 ## Benchmark protocol
 
 1. Freeze input artifacts and task prompt.
-2. Run default AI without AI Engineering Arsenal.
-3. Run the same model with AI Engineering Arsenal.
+2. Run default AI without OutcomeLab.
+3. Run the same model with OutcomeLab.
 4. Keep model, temperature, tools, context, and time budget comparable.
-5. Score both outputs with the AI Engineering Arsenal Evaluation Standard.
+5. Score both outputs with the OutcomeLab Evaluation Standard.
 6. Publish the raw outputs unless safety or privacy requires redaction.
 7. Publish limitations, evaluator notes, and known failure modes.
 
 ## Comparison report format
 
-| Dimension | Default AI | AI Engineering Arsenal | Winner | Notes |
+| Dimension | Default AI | OutcomeLab | Winner | Notes |
 | --- | ---: | ---: | --- | --- |
 | Accuracy |  |  |  |  |
 | Evidence |  |  |  |  |
@@ -52,7 +52,7 @@ For early skills, `evaluation-rubric.md` and `failure-patterns.md` are the minim
 
 ## Claim rules
 
-- "AI Engineering Arsenal improved the result" requires a scored comparison.
-- "AI Engineering Arsenal found more risks" requires a coverage report.
-- "AI Engineering Arsenal saved time" requires either measured execution time or a clearly labeled estimate.
+- "OutcomeLab improved the result" requires a scored comparison.
+- "OutcomeLab found more risks" requires a coverage report.
+- "OutcomeLab saved time" requires either measured execution time or a clearly labeled estimate.
 - "Production-grade" requires verification, rollback, ownership, and failure handling.
