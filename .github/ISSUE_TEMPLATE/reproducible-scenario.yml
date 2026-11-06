@@ -1,0 +1,36 @@
+name: Reproducible production-risk scenario
+about: Propose an independently useful, safe negative-control acceptance scenario
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "Do not upload customer data, secrets, private repositories, or actionable exploit chains."
+  - type: input
+    id: failure
+    attributes:
+      label: Failure scenario
+      description: What observable user or system invariant is violated?
+      placeholder: A duplicate payment event creates two ledger effects
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Reproduction evidence
+      description: Link a public issue or provide a minimal sanitized reproduction and current behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Negative and positive control
+      description: What should fail before the fix and pass after the fix under the same acceptance check?
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Security, privacy and limitations
+      description: Describe data sensitivity, side effects, environment dependencies and unsupported cases.
+    validations:
+      required: true

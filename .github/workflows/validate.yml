@@ -25,6 +25,8 @@ jobs:
         run: python scripts/validate.py
       - name: Test evaluation tooling
         run: python -m unittest discover -s tests -v
+      - name: Verify risk-lab negative controls
+        run: python -m risk_lab --json
       - name: Exercise synthetic example CLI
         run: |
           python scripts/score_evaluation.py examples/paired-evaluation/score-example.json

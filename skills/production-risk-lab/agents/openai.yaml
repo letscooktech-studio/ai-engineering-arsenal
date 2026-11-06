@@ -1,0 +1,4 @@
+interface:
+  display_name: "Production Risk Lab"
+  short_description: "Demonstrate and verify production-risk invariants."
+  default_prompt: "Use $production-risk-lab to identify an observable production invariant, run the available safe demonstrations, and report evidence, limitations, and independent acceptance tests needed."
