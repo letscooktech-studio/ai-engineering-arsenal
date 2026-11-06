@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "inventory-rejection-atomicity",
+  "description": "A rejected oversize reservation must leave available stock unchanged.",
+  "steps": [
+    {
+      "id": "before",
+      "method": "GET",
+      "path": "/v1/inventory/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/available",
+          "equals": 5
+        }
+      ]
+    },
+    {
+      "id": "reserve",
+      "method": "POST",
+      "path": "/v1/reservations",
+      "json": {
+        "sku": "{run_id}",
+        "quantity": 3
+      },
+      "expect_status": 200
+    },
+    {
+      "id": "after-reserve",
+      "method": "GET",
+      "path": "/v1/inventory/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/available",
+          "from": "before",
+          "delta": -3
+        }
+      ]
+    },
+    {
+      "id": "oversize",
+      "method": "POST",
+      "path": "/v1/reservations",
+      "json": {
+        "sku": "{run_id}",
+        "quantity": 3
+      },
+      "expect_status": 409
+    },
+    {
+      "id": "after-rejection",
+      "method": "GET",
+      "path": "/v1/inventory/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/available",
+          "from": "before",
+          "delta": -3
+        },
+        {
+          "pointer": "/available",
+          "from": "after-reserve",
+          "unchanged": true
+        }
+      ]
+    }
+  ]
+}

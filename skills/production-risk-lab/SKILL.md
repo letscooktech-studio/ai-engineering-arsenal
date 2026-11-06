@@ -20,8 +20,8 @@ Identify the project's platform, authorization, scope, invariant, current test f
 3. Where platform/API details may have changed, look up current official documentation **only if the host has approved web tools**. Cite URL, revision/version, and retrieval date; otherwise mark external research unavailable.
 4. Run `python -m risk_lab` from the OutcomeLab repository root for its **two bundled synthetic cases**. Use `--json` for machine-readable evidence. This command does not run the user's application.
 5. Inspect both results: the deliberately broken example must FAIL and the corrected example must PASS under the same scenario invariant. Treat exceptions and unavailable checks as UNVERIFIED.
-6. For a developer-owned localhost HTTP API, propose a contract from the real endpoints, obtain approval for the expected state, and run `outcomelab verify-http` against a disposable database. Require GET state readback and use `--allow-local-writes` only for approved POSTs. See the [quickstart](../../docs/START-HERE.md).
-7. Request independent confirmation when test code and candidate implementation are both controlled by the coding agent; preserve results tied to a specific revision and environment.
+6. For a developer-owned localhost HTTP API, propose a contract from the real endpoints, obtain approval for the expected state, and check it offline with `outcomelab validate --contract PATH`. Run `outcomelab verify-http` against a disposable database. Use a v2 baseline and run-specific identity for state transitions. Require GET state readback and use `--allow-local-writes` only for approved POSTs. See the [quickstart](../../docs/START-HERE.md).
+7. Treat receipts as observations from the target HTTP API. Request independent confirmation when test code and candidate implementation are both controlled by the coding agent; preserve results tied to a specific revision and environment.
 
 ## Output contract
 

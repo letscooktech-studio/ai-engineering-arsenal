@@ -1,0 +1,100 @@
+{
+  "schema_version": 2,
+  "id": "webhook-idempotency-stateful",
+  "steps": [
+    {
+      "id": "before",
+      "method": "GET",
+      "path": "/v1/ledger/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/credited_cents",
+          "equals": 0
+        },
+        {
+          "pointer": "/ledger_rows",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "first",
+      "method": "POST",
+      "path": "/v1/events",
+      "expect_status": 200,
+      "json": {
+        "event_id": "{run_id}",
+        "invoice_id": "{run_id}",
+        "amount_cents": 750
+      },
+      "capture": {
+        "name": "accepted_event",
+        "pointer": "/event_id"
+      }
+    },
+    {
+      "id": "once",
+      "method": "GET",
+      "path": "/v1/ledger/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/credited_cents",
+          "from": "before",
+          "delta": 750
+        },
+        {
+          "pointer": "/ledger_rows",
+          "from": "before",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "id": "again",
+      "method": "POST",
+      "path": "/v1/events",
+      "expect_status": 200,
+      "json": {
+        "event_id": "{accepted_event}",
+        "invoice_id": "{run_id}",
+        "amount_cents": 750
+      }
+    },
+    {
+      "id": "conflict",
+      "method": "POST",
+      "path": "/v1/events",
+      "expect_status": 400,
+      "json": {
+        "event_id": "{accepted_event}",
+        "invoice_id": "{run_id}",
+        "amount_cents": 900
+      }
+    },
+    {
+      "id": "after",
+      "method": "GET",
+      "path": "/v1/ledger/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/credited_cents",
+          "from": "before",
+          "delta": 750
+        },
+        {
+          "pointer": "/ledger_rows",
+          "from": "before",
+          "delta": 1
+        },
+        {
+          "pointer": "/credited_cents",
+          "from": "once",
+          "unchanged": true
+        }
+      ]
+    }
+  ]
+}

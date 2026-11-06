@@ -1,8 +1,8 @@
-# OutcomeLab
+# OutcomeLab — Local HTTP API Regression Testing
 
 ![LetsCookTech Open Source Team banner](assets/letscooktech-open-source-team-banner.png)
 
-OutcomeLab checks whether your local HTTP API did what you expected. For example, it sends the same webhook twice, then reads the ledger to check that the payment was credited only once.
+OutcomeLab is an open-source CLI for stateful HTTP API testing. It checks webhook idempotency, invoice persistence, and inventory reservation behavior against a disposable local service or CI test environment. For example, it sends the same webhook twice, then reads the ledger to check that the payment was credited only once.
 
 ## Quickstart
 
@@ -23,20 +23,21 @@ python -m risk_lab.demo_http --variant broken --port 8765
 In a second terminal with the same environment active, run:
 
 ```sh
-outcomelab verify-http --contract examples/http/webhook-idempotency.json --base-url http://127.0.0.1:8765 --allow-local-writes
+outcomelab verify-http --contract examples/http/v2/webhook-idempotency.json --base-url http://127.0.0.1:8765 --allow-local-writes
 ```
 
-The broken service returns HTTP 200 for both deliveries, but the ledger shows two credits. OutcomeLab prints `FAIL (2 assertions, 0 skipped)`. Restart the service with `--variant fixed` and run the same command. It prints `PASS (2 assertions, 0 skipped)`.
+The broken service returns HTTP 200 for both deliveries, but the ledger shows two credits. OutcomeLab prints `FAIL (7 assertions, 0 skipped)`. Restart the service with `--variant fixed` and run the same command. It prints `PASS (7 assertions, 0 skipped)`.
 
 ## Check your own API
 
-Copy an [example contract](examples/http/) and set the routes, test payloads, and expected state for your service. Run against a disposable database. The runner accepts literal IPv4 loopback targets and requires `--allow-local-writes` for POST requests. Add `--json` to get a receipt with the contract hash, verdict, and assertion outcomes.
+Copy an [stateful example contract](examples/http/v2/) and set the routes, test payloads, and expected state for your service. Check it offline with `outcomelab validate --contract PATH`, then run against a disposable database. The runner accepts literal IPv4 loopback targets and requires `--allow-local-writes` for POST requests. Add `--json` to get a receipt with the contract hash, verdict, and assertion outcomes.
 
 - [Walkthrough for webhook idempotency and invoice persistence](docs/START-HERE.md)
+- [Run API regression tests in CI](docs/api-regression-testing-in-ci.md)
 - [Contract format, exit codes, and safety rules](docs/PRODUCTION-RISK-LAB.md)
 - [Production Risk Lab agent skill](skills/production-risk-lab/SKILL.md)
 
-A passing result covers the observations in the supplied contract. The bundled examples use fictional inputs and temporary databases.
+A passing result covers the observations in the supplied contract. The bundled examples use fictional inputs and temporary databases. [Reproduce the checks independently](https://github.com/letscooktech-studio/outcomelab/issues/3) or [propose a scenario](https://github.com/letscooktech-studio/outcomelab/issues/4).
 
 ## Engineering resources
 
