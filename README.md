@@ -129,6 +129,8 @@ Not yet. The repository includes rubrics, synthetic case studies, and benchmark 
 
 ## Production Risk Lab — runnable demos
 
+**New here?** [Try the 5-minute reproducibility guide](docs/START-HERE.md) or [report a platform-specific result](https://github.com/letscooktech-studio/ai-engineering-arsenal/issues/3).
+
 The [Production Risk Lab](docs/PRODUCTION-RISK-LAB.md) adds two **executable, synthetic** negative-control scenarios: duplicate webhook events and invoice persistence. Each runs the same outcome check against intentionally broken and corrected SQLite implementations. They are teaching/evaluation fixtures, **not production software scans or model benchmarks**.
 
 ```sh
@@ -156,7 +158,7 @@ A contribution needs a recurring decision problem, an evidence/verification cont
 
 ## Status
 
-`v0.1.0` is planned as the first foundation release. Case studies are synthetic demonstrations; public benchmark results are not yet published. That distinction is intentional.
+[`v0.1.0`](https://github.com/letscooktech-studio/ai-engineering-arsenal/releases/tag/v0.1.0) is the first published foundation release. Case studies are synthetic demonstrations; public benchmark results are not yet published. That distinction is intentional.
 
 Developed by the LetsCookTech Open Source Team.
 
