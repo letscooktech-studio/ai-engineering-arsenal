@@ -21,6 +21,8 @@ Check what changed after an operation. A successful status, test suite, log, or 
 4. For a row-count witness, add `--sqlite-witness ABSOLUTE_DB TABLE KEY COUNT --allow-disposable-witness`. The operator must approve the exact disposable database, table, key, and expected count. The key is matched to the generated run ID. See the [witness walkthrough](../../docs/sqlite-effect-witness.md).
 5. Where a safe negative control exists, run the same contract against the broken and corrected implementations. Compare contract SHA-256 values. Run again without resetting when the scenario claims run isolation. Do not weaken the oracle to make a candidate pass.
 
+6. Diagnose against the failing receipt. If the operator requests a repair, change the implementation separately, then rerun the approved contract and observer with a fresh run ID. Compare the contract hash and report any scope change. See the [agent guide and handoff template](../../docs/AGENT-VERIFICATION-GUIDE.md).
+
 ## Output contract
 
 | Verdict | Decision |
