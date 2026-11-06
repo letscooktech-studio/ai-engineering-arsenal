@@ -1,3 +1,6 @@
 # Hash-pinned evaluation fixtures require identical bytes on Windows and Linux.
 examples/paired-evaluation/*.txt text eol=lf
 examples/paired-evaluation/*.json text eol=lf
+
+# Receipts hash the exact contract bytes.
+examples/http/v2/**/*.json text eol=lf

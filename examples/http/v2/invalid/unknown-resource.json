@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "id": "invoice-persistence-stateful",
+  "steps": [
+    {
+      "id": "before",
+      "method": "GET",
+      "path": "/v1/invoices/{run_id}",
+      "expect_status": 404
+    },
+    {
+      "id": "save",
+      "method": "POST",
+      "path": "/v1/invoices",
+      "expect_status": 200,
+      "json": {
+        "invoice_id": "{unknown}",
+        "customer": "fixture-customer",
+        "amount_cents": 750
+      }
+    },
+    {
+      "id": "after",
+      "method": "GET",
+      "path": "/v1/invoices/{run_id}",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/invoice_id",
+          "equals": "{run_id}"
+        },
+        {
+          "pointer": "/amount_cents",
+          "equals": 750
+        }
+      ]
+    }
+  ]
+}

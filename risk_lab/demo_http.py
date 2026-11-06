@@ -9,7 +9,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from . import fixtures
-from .http_verify import ID, decode, matches, require
+from .contracts import ID, decode, matches, require
 
 
 @contextmanager
@@ -54,7 +54,11 @@ def demo_server(variant, port=0):
                     require(matches(ID, name) and matches(ID, invoice_id))
                     require(type(cents) is int and 0 < cents <= 1_000_000_000)
                     if is_event:
-                        require(invoice_id == "inv-demo")
+                        isolated = re.fullmatch(r"[0-9a-f]{32}", invoice_id)
+                        require(invoice_id == "inv-demo" or isolated)
+                        if isolated:
+                            with closing(sqlite3.connect(webhook)) as db, db:
+                                db.execute("INSERT OR IGNORE INTO invoices(id) VALUES (?)", (invoice_id,))
                         require(events.get(name, (invoice_id, cents)) == (invoice_id, cents))
                         apply(webhook, name, invoice_id, cents)
                         events[name] = (invoice_id, cents)
@@ -63,7 +67,7 @@ def demo_server(variant, port=0):
                 except (ValueError, sqlite3.IntegrityError, RecursionError):
                     self.send_json(400, {})
                     return
-                self.send_json(200, {"accepted": True})
+                self.send_json(200, {"accepted": True, **({"event_id": name} if is_event else {})})
 
             def do_GET(self):
                 route = re.fullmatch(rf"/v1/(ledger|invoices)/({ID})", self.path)
@@ -77,6 +81,8 @@ def demo_server(variant, port=0):
                             "SELECT credited_cents, (SELECT COUNT(*) FROM ledger WHERE invoice_id=?) "
                             "FROM invoices WHERE id=?", (invoice_id, invoice_id)).fetchone()
                         keys = ("credited_cents", "ledger_rows")
+                        if row is None and re.fullmatch(r"[0-9a-f]{32}", invoice_id):
+                            row = (0, 0)
                     else:
                         row = db.execute("SELECT id, amount_cents FROM invoices WHERE id=?",
                                          (invoice_id,)).fetchone()

@@ -6,7 +6,7 @@ Use the [quickstart](START-HERE.md) for an executable HTTP example. See the [sou
 
 The JSON object has `schema_version: 1`, `id`, optional `description`, and `steps`. Each step has a unique `id`, `method`, `path`, and integer `expect_status`. POST requires a static JSON object in `json`. GET can have an `assert_json` array and the final step must be a GET with assertions. The runner supports exact typed scalar equality (`equals`) and list length (`length`). Pointers are slash-separated object keys using ASCII letters, digits, underscores and hyphens. Version 1 supports integer JSON numbers.
 
-Use a literal `http://127.0.0.1:PORT` with port 1024–65535. Paths allow slash-separated ASCII letters, digits, underscores and hyphens. The runner sends requests directly to loopback and refuses redirects. Manifests cannot set headers, execute code, or expand variables. Limits include 64 KiB contracts, 16 KiB POST payloads, 256 KiB response bodies, 10 steps, 20 assertions, and up to five seconds per request.
+Use a literal `http://127.0.0.1:PORT` with port 1024–65535. Paths allow slash-separated ASCII letters, digits, underscores and hyphens. The runner sends requests directly to loopback and refuses redirects. V1 manifests cannot set headers, execute code, or expand variables. Limits include 64 KiB contracts, 16 KiB POST payloads, 256 KiB response bodies, 10 steps, 20 assertions, and up to five seconds per request.
 
 | Exit | Result | Meaning |
 | --- | --- | --- |
@@ -15,9 +15,30 @@ Use a literal `http://127.0.0.1:PORT` with port 1024–65535. Paths allow slash-
 | 2 | UNVERIFIED | The runner could not complete an observation |
 | 3 | INVALID | The contract, target or permission was invalid |
 
+## HTTP contract v2
+
+Start with the [stateful examples](../examples/http/v2/). The [unknown binding example](../examples/http/v2/invalid/unknown-resource.json) fails offline validation. V2 retains v1 field names and adds the following rules:
+
+| Part | Rule |
+| --- | --- |
+| Baseline | First step is a GET whose path includes a whole `{run_id}` segment. Expect 404 for absence, or 200 with assertions establishing initial state. A mismatch stops the run as UNVERIFIED before any mutation. |
+| Action | At least one POST must expect 2xx and use `{run_id}` in a path segment or top-level body value. Include one or more actions between the baseline and the last GET. |
+| Readback | Last step is a GET using the same path template as the baseline, expects 200, and has JSON assertions. A 200 baseline requires at least one nonzero integer delta from it on the final step. |
+| Binding | `{run_id}` expands to a new 32-character UUID4 hex value. A step expecting 2xx can declare one `"capture": {"name": "created", "pointer": "/id"}`. Names are unique and case-sensitive. Captured values must be strings matching `[A-Za-z0-9_-]{1,64}`. Captures become available on later steps. |
+| Placement | Use `{name}` as a whole path segment, whole top-level POST JSON value, or whole string in an `equals` assertion. Path segments and body values are checked again after expansion. Nested JSON is literal. There is no expression evaluation or environment interpolation. |
+| Relative assertions | `{"pointer": "/amount_cents", "from": "before", "delta": 750}` checks exact integer subtraction. `{"pointer": "/state", "from": "once", "unchanged": true}` compares typed scalars. The source must be an earlier 200 GET with assertions on the identical path template. Missing or mistyped observations are UNVERIFIED. |
+
+IDs are 1�64 ASCII letters, digits, underscores or hyphens. V2 pointers consist of up to eight slash-separated ID-shaped keys. JSON has a nesting limit of 32 and accepts integer numbers only. V2 requires Content-Length for nonempty response bodies and rejects transfer encodings. Ambiguous framing and redirects are rejected. There are at most 10 attempts of up to 5 seconds each, with no POST retry. A timed-out write may already have changed state.
+
+### Local authentication and evidence
+
+Pass `--bearer-token` to read `OUTCOMELAB_BEARER_TOKEN` from the process environment. It supplies only the Authorization bearer header. Empty, oversized, or invalid values, including line breaks, are rejected before contacting the target. Use a short-lived credential for the disposable service. Local HTTP is plaintext and the receiving server controls its own logging. See [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750).
+
+Receipts label all observations `target-http-api` and approval `operator-declared`. They include a run ID, contract hash and version, CLI and runtime versions, phase/status records, and assertion outcomes without raw bodies or comparison values. An attempted step may have changed state even when no complete response was observed. V2 does not invoke Git. Optional legacy v1 Git metadata describes the CLI working directory. The receipt cannot attest the service source, build, or database contents.
+
 ### Threat model
 
-Review the manifest and expected state before execution. POST can leave changes behind even if a later check fails. The verifier uses no proxy, follows no redirects and emits comparison outcomes rather than response payloads or assertion values. Use dummy names in contracts because the receipt includes contract and step IDs and pointers. A contract hash identifies the exact bytes, and Git fields refer to the CLI checkout. A local service can proxy requests elsewhere or return misleading state. Local results cover the declared observations under the supplied environment and input only.
+Review the manifest and expected state before execution. POST can leave changes behind even if a later check fails. The verifier uses no proxy, follows no redirects and emits comparison outcomes rather than response payloads or assertion values. Use dummy names in contracts because the receipt includes contract and step IDs and pointers. A contract hash identifies the exact bytes, and legacy Git fields refer to the CLI checkout. A local service can proxy requests elsewhere or return misleading state. Local results cover the declared observations under the supplied environment and input only.
 
 ## Legacy SQLite demonstrations
 

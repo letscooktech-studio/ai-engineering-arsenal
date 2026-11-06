@@ -6,7 +6,8 @@ import sys
 from pathlib import Path
 
 from .__main__ import main as legacy_demo
-from .http_verify import verify
+from .contracts import load_contract
+from .http_verify import AUTH_ENV, verify
 from .runner import CONTRACTS
 
 
@@ -18,13 +19,15 @@ class Parser(argparse.ArgumentParser):
 def main(argv=None):
     parser = Parser(prog="outcomelab", description="Verify business state on a disposable local service.")
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("catalog", "doctor", "demo", "verify-http"):
+    for name in ("catalog", "doctor", "demo", "validate", "verify-http"):
         command = commands.add_parser(name)
         command.add_argument("--json", action="store_true")
         if name == "doctor":
             command.add_argument("--project", required=True, type=Path)
-        if name == "verify-http":
+        if name in ("validate", "verify-http"):
             command.add_argument("--contract", required=True, type=Path)
+        if name == "verify-http":
+            command.add_argument("--bearer-token", action="store_true", help=f"Read a local test token from {AUTH_ENV}")
             command.add_argument("--base-url", required=True)
             command.add_argument("--allow-local-writes", action="store_true")
     args = parser.parse_args(argv)
@@ -35,6 +38,7 @@ def main(argv=None):
         result = {"schema_version": 1, "contracts": [
             dict(spec, adapters=["synthetic-sqlite", "localhost-http"],
                  source=f"examples/http/{key}.json",
+                 stateful_source=f"examples/http/v2/{key}.json",
                  limitations="Sequential disposable fixture; no production or provider coverage")
             for key, spec in sorted(CONTRACTS.items())]}
     elif args.command == "doctor":
@@ -47,10 +51,18 @@ def main(argv=None):
                       "executables": {name: shutil.which(name) is not None
                                       for name in ("python", "node", "npm", "flutter", "xcodebuild", "cargo")},
                       "verdict": "UNVERIFIED", "scope": "File and executable presence only"}
+    elif args.command == "validate":
+        try:
+            contract, digest, count = load_contract(args.contract)
+        except (OSError, ValueError, RecursionError):
+            result, code = {"verdict": "INVALID", "error_class": "invalid_contract"}, 3
+        else:
+            result = dict(verdict="VALID", contract_id=contract["id"], contract_sha256=digest,
+                          contract_schema_version=contract["schema_version"], assertions=count)
     else:
         if args.allow_local_writes:
             print("Local POSTs may mutate service state. Use a disposable database.", file=sys.stderr)
-        result, code = verify(args.contract, args.base_url, args.allow_local_writes)
+        result, code = verify(args.contract, args.base_url, args.allow_local_writes, args.bearer_token)
     if args.json or args.command != "verify-http":
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
