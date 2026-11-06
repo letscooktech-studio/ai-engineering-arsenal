@@ -15,3 +15,7 @@ Open an issue before a large skill so the problem, user, evidence sources, and e
 Do not contribute generic personas, model-specific marketing, copied proprietary material, unverifiable claims, or instructions that enable unauthorized harm.
 
 Run the bundled skill validator against any changed skill before submitting it.
+
+## Production Risk Lab scenarios
+
+Before adding a scenario, explain a concrete user-facing invariant and share a sanitized negative reproduction. Use the [scenario issue template](.github/ISSUE_TEMPLATE/reproducible-scenario.yml). Keep broken and corrected fixtures and a shared, falsifiable test oracle. Run `python -m risk_lab`, `python -m unittest discover -s tests -v`, and `python scripts/validate.py`. We welcome failure reports and tests that show where the current framework is misleading.

@@ -1,0 +1,33 @@
+name: Publish first verified Arsenal release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: contains(github.event.head_commit.message, '[release-v0.1.0]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.12'
+      - name: Validate repository
+        run: python scripts/validate.py
+      - name: Run Python unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Verify synthetic negative controls
+        run: python -m risk_lab --json
+      - name: Publish immutable release reference
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.0 >/dev/null 2>&1; then
+            echo 'Release v0.1.0 already exists; refusing to overwrite.'
+            exit 0
+          fi
+          gh release create v0.1.0 --target "$GITHUB_SHA" --title 'AI Engineering Arsenal v0.1.0' --notes-file RELEASE_NOTES.md

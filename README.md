@@ -126,6 +126,19 @@ No. The playbooks are Markdown-first and model-portable. They are designed for C
 
 Not yet. The repository includes rubrics, synthetic case studies, and benchmark protocol. Public benchmark wins should only be claimed after raw baseline and framework outputs are published.
 
+
+## Production Risk Lab — runnable demos
+
+The [Production Risk Lab](docs/PRODUCTION-RISK-LAB.md) adds two **executable, synthetic** negative-control scenarios: duplicate webhook events and invoice persistence. Each runs the same outcome check against intentionally broken and corrected SQLite implementations. They are teaching/evaluation fixtures, **not production software scans or model benchmarks**.
+
+```sh
+python -m risk_lab
+python -m risk_lab --json
+python -m unittest discover -s tests -v
+```
+
+The command runs locally with Python 3.11+ and no API keys or third-party packages. It reports `DEMONSTRATED` only when a broken fixture fails and a corrected fixture passes. It does not verify your own app. Read the [limitations](docs/PRODUCTION-RISK-LAB.md#non-goals-and-safety-limitations) before interpreting results. The [agent skill](skills/production-risk-lab/SKILL.md) helps developers reason about additional acceptance criteria.
+
 ## Contribute a useful playbook
 
 A contribution needs a recurring decision problem, an evidence/verification contract, safety boundaries, and a sanitized evaluation case. Generic personas and untested prompt collections do not qualify. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -143,7 +156,7 @@ A contribution needs a recurring decision problem, an evidence/verification cont
 
 ## Status
 
-`v0.1.0` is a foundation release. Case studies are synthetic demonstrations; public benchmark results are not yet published. That distinction is intentional.
+`v0.1.0` is planned as the first foundation release. Case studies are synthetic demonstrations; public benchmark results are not yet published. That distinction is intentional.
 
 Developed by the LetsCookTech Open Source Team.
 
