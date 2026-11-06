@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "case_id": "synthetic-invoice-example",
+  "controls": {
+    "model": "synthetic-no-model-run",
+    "task_sha256": "af7c2f4f72998de180a12b13cfae59626832ba97a23540e8651ed7919e6a5a2c",
+    "tools": [],
+    "token_budget": 4000,
+    "evaluator": "synthetic-example-not-independent"
+  },
+  "baseline": {
+    "artifact": "baseline.txt",
+    "artifact_sha256": "5245738c05a6dd27cc056655caa4f11fff5b6828146f71ef7d58bce2a294ab26",
+    "scores": {
+      "accuracy": 4,
+      "evidence": 4,
+      "verification": 4,
+      "actionability": 4,
+      "security": 4,
+      "scalability": 4,
+      "maintainability": 4,
+      "completeness": 4,
+      "risk_awareness": 4,
+      "business_impact": 4,
+      "user_value": 4
+    }
+  },
+  "candidate": {
+    "artifact": "candidate.txt",
+    "artifact_sha256": "8dea38ebcb83c2c6991edb85ab582a60b4eb63d6d5adde1b6a113db7ef19d2da",
+    "scores": {
+      "accuracy": 6,
+      "evidence": 6,
+      "verification": 6,
+      "actionability": 6,
+      "security": 6,
+      "scalability": 6,
+      "maintainability": 6,
+      "completeness": 6,
+      "risk_awareness": 6,
+      "business_impact": 6,
+      "user_value": 6
+    }
+  }
+}

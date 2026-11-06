@@ -1,0 +1,2 @@
+SYNTHETIC EXAMPLE, NOT A MODEL RUN.
+Returning success does not prove persistence. Reopen the invoice after a restart and verify all fields, while recording the runtime environment and evidence limitations.
