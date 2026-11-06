@@ -1,6 +1,11 @@
 # OutcomeLab changelog
 
-## 0.2.0rc1 — release candidate
+## Unreleased
+
+- Added a separately approved read-only SQLite witness for run-scoped row counts.
+- Added interrupted-write evidence and a backend verification skill workflow that distinguishes API readback from backing-store observations.
+
+## 0.2.0rc1 â€” release candidate
 
 - Added v2 contracts with run-scoped identities, preconditions, captured identifiers, and before/after comparisons.
 - Added offline validation and opt-in environment-supplied bearer authentication for disposable loopback services.

@@ -28,13 +28,17 @@ Start with the [stateful examples](../examples/http/v2/). The [unknown binding e
 | Placement | Use `{name}` as a whole path segment, whole top-level POST JSON value, or whole string in an `equals` assertion. Path segments and body values are checked again after expansion. Nested JSON is literal. There is no expression evaluation or environment interpolation. |
 | Relative assertions | `{"pointer": "/amount_cents", "from": "before", "delta": 750}` checks exact integer subtraction. `{"pointer": "/state", "from": "once", "unchanged": true}` compares typed scalars. The source must be an earlier 200 GET with assertions on the identical path template. Missing or mistyped observations are UNVERIFIED. |
 
-IDs are 1–64 ASCII letters, digits, underscores or hyphens. V2 pointers consist of up to eight slash-separated ID-shaped keys. JSON has a nesting limit of 32 and accepts integer numbers only. V2 requires Content-Length for nonempty response bodies and rejects transfer encodings. Ambiguous framing and redirects are rejected. There are at most 10 attempts of up to 5 seconds each, with no POST retry. A timed-out write may already have changed state.
+IDs are 1â€“64 ASCII letters, digits, underscores or hyphens. V2 pointers consist of up to eight slash-separated ID-shaped keys. JSON has a nesting limit of 32 and accepts integer numbers only. V2 requires Content-Length for nonempty response bodies and rejects transfer encodings. Ambiguous framing and redirects are rejected. There are at most 10 attempts of up to 5 seconds each, with no POST retry. A timed-out write may already have changed state.
 
 ### Local authentication and evidence
 
 Pass `--bearer-token` to read `OUTCOMELAB_BEARER_TOKEN` from the process environment. It supplies only the Authorization bearer header. Empty, oversized, or invalid values, including line breaks, are rejected before contacting the target. Use a short-lived credential for the disposable service. Local HTTP is plaintext and the receiving server controls its own logging. See [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750).
 
 Receipts label all observations `target-http-api` and approval `operator-declared`. They include a run ID, contract hash and version, CLI and runtime versions, phase/status records, and assertion outcomes without raw bodies or comparison values. An attempted step may have changed state even when no complete response was observed. V2 does not invoke Git. Optional legacy v1 Git metadata describes the CLI working directory. The receipt cannot attest the service source, build, or database contents.
+
+### Optional SQLite witness and uncertain writes
+
+See the [SQLite witness guide](sqlite-effect-witness.md) for operator consent, file scope, and the deceptive-API demonstration. When enabled, a successful HTTP run requires the final witness to match too. A definitive failed assertion takes precedence over a later incomplete observation, and the receipt keeps the incomplete diagnostic. A baseline mismatch blocks writes and yields UNVERIFIED. An interrupted POST may have committed. The receipt flags `effect_unknown` when delivery or the mutation result is uncertain.
 
 ### Threat model
 

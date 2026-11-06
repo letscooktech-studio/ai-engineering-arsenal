@@ -28,6 +28,8 @@ def main(argv=None):
             command.add_argument("--contract", required=True, type=Path)
         if name == "verify-http":
             command.add_argument("--bearer-token", action="store_true", help=f"Read a local test token from {AUTH_ENV}")
+            command.add_argument("--sqlite-witness", nargs=4, metavar=("DB", "TABLE", "KEY", "COUNT"))
+            command.add_argument("--allow-disposable-witness", action="store_true")
             command.add_argument("--base-url", required=True)
             command.add_argument("--allow-local-writes", action="store_true")
     args = parser.parse_args(argv)
@@ -69,10 +71,14 @@ def main(argv=None):
     else:
         if args.allow_local_writes:
             print("Local POSTs may mutate service state. Use a disposable database.", file=sys.stderr)
-        result, code = verify(args.contract, args.base_url, args.allow_local_writes, args.bearer_token)
+        result, code = verify(args.contract, args.base_url, args.allow_local_writes, args.bearer_token,
+                              args.sqlite_witness, args.allow_disposable_witness)
     if args.json or args.command != "verify-http":
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
+        witness = result.get("sqlite_witness")
+        if witness:
+            print(f"SQLite witness baseline={witness['baseline']} readback={witness['readback']}")
         print(f"{result['verdict']} ({result['executed_assertions']} assertions, "
               f"{result['skipped_assertions']} skipped)")
     return code

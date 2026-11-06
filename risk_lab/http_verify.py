@@ -4,6 +4,7 @@ import json
 import os
 import re
 import socket
+import sqlite3
 import subprocess
 import sys
 import platform
@@ -13,6 +14,8 @@ from threading import Event, Timer
 
 from . import __version__
 from .contracts import SCALARS, at_pointer, decode, expand, load_contract, matches, require, resolve, ID
+
+from . import sqlite_witness
 
 LIMIT = 256 * 1024
 AUTH_ENV = "OUTCOMELAB_BEARER_TOKEN"
@@ -73,7 +76,7 @@ def git(*args):
         return None
 
 
-def verify(path, base_url, allow_writes, use_bearer=False):
+def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=None, allow_witness=False):
     now = lambda: datetime.now(timezone.utc).isoformat()
     run_id = uuid4().hex
     receipt = dict(schema_version=1, contract_id=None, contract_sha256=None, run_id=run_id,
@@ -88,6 +91,7 @@ def verify(path, base_url, allow_writes, use_bearer=False):
                                 "Optional v1 Git metadata describes the CLI working directory."])
     checks = receipt["assertion_results"]
     total = None
+    witness = None
     try:
         contract, digest, total = load_contract(path)
         receipt.update(contract_id=contract["id"], contract_sha256=digest,
@@ -98,6 +102,13 @@ def verify(path, base_url, allow_writes, use_bearer=False):
         require(target and 1024 <= int(target[1]) <= 65535)
         token = os.environ.get(AUTH_ENV) if use_bearer else None
         require(not use_bearer or matches(r"[A-Za-z0-9._~+/-]{1,2048}={0,2}", token))
+        require(bool(witness_arguments) == allow_witness)
+        if witness_arguments:
+            require(contract["schema_version"] == 2)
+            witness = sqlite_witness.definition(witness_arguments)
+            receipt["sqlite_witness"] = dict(authority="read-only-local-sqlite",
+                                             definition_sha256=sqlite_witness.fingerprint(witness),
+                                             baseline="SKIPPED", readback="SKIPPED")
         require(allow_writes or all(step["method"] == "GET" for step in contract["steps"]))
     except (OSError, ValueError, RecursionError):
         verdict, code = "INVALID", 3
@@ -111,12 +122,23 @@ def verify(path, base_url, allow_writes, use_bearer=False):
             status = git("--no-optional-locks", "status", "--porcelain")
             receipt.update(git_head=git("rev-parse", "--verify", "HEAD"),
                            working_tree_dirty=None if status is None else bool(status))
+        effect_unknown = False
+        write_in_flight = False
+        checking_witness = witness is not None
         try:
+            if witness:
+                witness_identity, count = sqlite_witness.count_rows(witness, run_id)
+                receipt["sqlite_witness"]["baseline"] = "PASS" if count == 0 else "FAIL"
+                require(count == 0)
+            checking_witness = False
             for index, step in enumerate(steps):
                 phase = "baseline" if stateful and index == 0 else "action" if step["method"] == "POST" else "readback"
                 outgoing = expand(step, variables) if stateful else step
                 receipt["attempted_steps"] += 1
+                write_in_flight = step["method"] == "POST"
                 status, media, raw = request(int(target[1]), dict(outgoing, strict_framing=stateful), token)
+                effect_unknown |= write_in_flight and (300 <= status < 400 or status in (408, 429) or status >= 500)
+                write_in_flight = False
                 receipt["executed_steps"] += 1
                 receipt["step_results"].append(dict(step=step["id"], phase=phase,
                                                     expected_status=step["expect_status"], observed_status=status))
@@ -162,11 +184,25 @@ def verify(path, base_url, allow_writes, use_bearer=False):
                     captured = at_pointer(document, capture["pointer"])
                     require(matches(ID, captured) and captured != token)
                     variables[capture["name"]] = captured
+            if witness and code == 0:
+                checking_witness = True
+                _, count = sqlite_witness.count_rows(witness, run_id, witness_identity)
+                receipt["sqlite_witness"]["readback"] = "PASS" if count == witness[-1] else "FAIL"
+                if count != witness[-1]:
+                    verdict, code = "FAIL", 1
             receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
-        except (OSError, http.client.HTTPException, ValueError, RecursionError):
-            if stateful or verdict != "FAIL":
+        except (OSError, http.client.HTTPException, sqlite3.Error, ValueError, RecursionError):
+            if verdict != "FAIL":
                 verdict, code = "UNVERIFIED", 2
-            receipt["error_class"] = "incomplete_observation"
+            receipt["error_class"] = "witness_unavailable" if checking_witness else "incomplete_observation"
+            if checking_witness:
+                phase = "baseline" if receipt["attempted_steps"] == 0 else "readback"
+                if receipt["sqlite_witness"][phase] == "SKIPPED":
+                    receipt["sqlite_witness"][phase] = "UNVERIFIED"
+        receipt["effect_unknown"] = effect_unknown or write_in_flight
+        receipt["cleanup"] = "operator-managed"
+        if receipt["error_class"]:
+            receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
             receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
     receipt.update(verdict=verdict, finished_at=now(), executed_assertions=len(checks),
                    skipped_assertions=None if total is None else total - len(checks))
