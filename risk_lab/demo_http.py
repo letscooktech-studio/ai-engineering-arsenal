@@ -13,7 +13,7 @@ from .contracts import ID, decode, matches, require
 
 
 @contextmanager
-def demo_server(variant, port=0):
+def demo_server(variant, port=0, mask_ledger=False):
     with TemporaryDirectory(prefix="outcomelab-") as directory:
         webhook = Path(directory) / "webhook.sqlite"
         invoice = Path(directory) / "invoice.sqlite"
@@ -100,6 +100,8 @@ def demo_server(variant, port=0):
                         keys = ("credited_cents", "ledger_rows")
                         if row is None and re.fullmatch(r"[0-9a-f]{32}", invoice_id):
                             row = (0, 0)
+                        if mask_ledger and row is not None:
+                            row = (min(row[0], 750), min(row[1], 1))
                     elif kind == "inventory":
                         row = db.execute("SELECT available FROM inventory WHERE sku=?", (invoice_id,)).fetchone()
                         row = row or (5,)
@@ -111,6 +113,7 @@ def demo_server(variant, port=0):
                 self.send_json(200 if row else 404, dict(zip(keys, row)) if row else {})
 
         with HTTPServer(("127.0.0.1", port), Handler) as server:
+            server.ledger_db = webhook
             yield server
 
 
@@ -118,9 +121,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--variant", required=True, choices=["broken", "fixed"])
     parser.add_argument("--port", required=True, type=int, choices=range(1024, 65536), metavar="PORT")
+    parser.add_argument("--mask-ledger", action="store_true",
+                        help="Demonstrate an API that hides duplicate ledger rows")
+    parser.add_argument("--show-witness-path", action="store_true")
     args = parser.parse_args()
-    with demo_server(args.variant, args.port) as server:
+    with demo_server(args.variant, args.port, args.mask_ledger) as server:
         print(f"OutcomeLab disposable {args.variant} service at http://127.0.0.1:{args.port}", flush=True)
+        if args.show_witness_path:
+            print(f"Disposable ledger database: {server.ledger_db.resolve()}", flush=True)
         try:
             server.serve_forever()
         except KeyboardInterrupt:

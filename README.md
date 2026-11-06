@@ -1,4 +1,4 @@
-# OutcomeLab — Local HTTP API Regression Testing
+# OutcomeLab â€” Local HTTP API Regression Testing
 
 ![LetsCookTech Open Source Team banner](assets/letscooktech-open-source-team-banner.png)
 
@@ -27,6 +27,10 @@ outcomelab verify-http --contract examples/http/v2/webhook-idempotency.json --ba
 ```
 
 The broken service returns HTTP 200 for both deliveries, but the ledger shows two credits. OutcomeLab prints `FAIL (7 assertions, 0 skipped)`. Restart the service with `--variant fixed` and run the same command. It prints `PASS (7 assertions, 0 skipped)`.
+
+## Check the backing store
+
+The optional SQLite witness can catch a duplicate ledger row even when the API reports one credit and every HTTP assertion passes. It counts only rows for the current run in an explicitly approved disposable database. See the [deceptive-API walkthrough](docs/sqlite-effect-witness.md) and the [evidence matrix](docs/CLAIMS-MATRIX.md).
 
 ## Check your own API
 
