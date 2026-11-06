@@ -15,17 +15,31 @@ def definition(arguments):
     path = Path(filename)
     require(path.is_absolute() and not str(path).startswith(("//", "\\\\")))
     for name in (table, key):
-        require(matches(r"[A-Za-z_][A-Za-z0-9_]{0,63}", name) and not name.lower().startswith("sqlite_"))
+        require_identifier(name)
     require(matches(r"0|[1-9][0-9]{0,3}", expected))
     return path, table, key, int(expected)
 
 
-def fingerprint(spec):
+def require_identifier(name):
+    require(matches(r"[A-Za-z_][A-Za-z0-9_]{0,63}", name) and not name.lower().startswith("sqlite_"))
+
+
+def sum_definition(arguments):
+    column, expected = arguments
+    require_identifier(column)
+    require(matches(r"-?(?:0|[1-9][0-9]{0,18})", expected))
+    return column, int(expected)
+
+
+def fingerprint(spec, amount=None):
     path, table, key, expected = spec
-    return sha256(json.dumps([str(path), table, key, expected]).encode()).hexdigest()
+    fields = [str(path), table, key, expected]
+    if amount is not None:
+        fields.append(amount)
+    return sha256(json.dumps(fields).encode()).hexdigest()
 
 
-def count_rows(spec, run_id, identity=None):
+def count_rows(spec, run_id, identity=None, amount=None):
     path, table, key, expected = spec
     require(path.resolve(strict=True) == path and not str(path).startswith(("//", "\\\\")))
     info = path.stat()
@@ -49,11 +63,25 @@ def count_rows(spec, run_id, identity=None):
         require(db.execute(
             "SELECT 1 FROM pragma_table_xinfo(?, 'main') WHERE name=? AND hidden=0", (table, key)
         ).fetchone() is not None)
-        count = db.execute(
-            f'SELECT count(*) FROM (SELECT 1 FROM main."{table}" '
-            f'WHERE "{key}" COLLATE BINARY = ? AND typeof("{key}") = \'text\' LIMIT ?)',
-            (run_id, max(expected, 1) + 1),
-        ).fetchone()[0]
+        predicate = f"""FROM main."{table}" WHERE "{key}" COLLATE BINARY = ? AND typeof("{key}") = 'text' LIMIT ?"""
+        parameters = (run_id, max(expected, 1) + 1)
+        if amount is None:
+            count = db.execute(f"SELECT count(*) FROM (SELECT 1 {predicate})", parameters).fetchone()[0]
+        else:
+            column, _ = amount
+            require(db.execute(
+                "SELECT 1 FROM pragma_table_xinfo(?, 'main') WHERE name=? AND hidden=0", (table, column)
+            ).fetchone() is not None)
+            # Bound rows and sum Python integers exactly without SQLite SUM overflow.
+            rows = db.execute(
+                f"""SELECT CASE WHEN typeof("{column}") = 'integer' THEN "{column}" END {predicate}""",
+                parameters,
+            ).fetchall()
+            count = len(rows)
+            total = None
+            if count == expected and all(type(row[0]) is int for row in rows):
+                total = sum(row[0] for row in rows)
+            count = count, total
     info = path.stat()
     require((info.st_dev, info.st_ino) == current)
     return current, count

@@ -76,7 +76,7 @@ def git(*args):
         return None
 
 
-def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=None, allow_witness=False):
+def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=None, allow_witness=False, sum_arguments=None):
     now = lambda: datetime.now(timezone.utc).isoformat()
     run_id = uuid4().hex
     receipt = dict(schema_version=1, contract_id=None, contract_sha256=None, run_id=run_id,
@@ -92,6 +92,7 @@ def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=Non
     checks = receipt["assertion_results"]
     total = None
     witness = None
+    amount = None
     try:
         contract, digest, total = load_contract(path)
         receipt.update(contract_id=contract["id"], contract_sha256=digest,
@@ -103,12 +104,17 @@ def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=Non
         token = os.environ.get(AUTH_ENV) if use_bearer else None
         require(not use_bearer or matches(r"[A-Za-z0-9._~+/-]{1,2048}={0,2}", token))
         require(bool(witness_arguments) == allow_witness)
+        require(not sum_arguments or witness_arguments)
         if witness_arguments:
             require(contract["schema_version"] == 2)
             witness = sqlite_witness.definition(witness_arguments)
+            if sum_arguments:
+                amount = sqlite_witness.sum_definition(sum_arguments)
             receipt["sqlite_witness"] = dict(authority="read-only-local-sqlite",
-                                             definition_sha256=sqlite_witness.fingerprint(witness),
+                                             definition_sha256=sqlite_witness.fingerprint(witness, amount),
                                              baseline="SKIPPED", readback="SKIPPED")
+            if amount:
+                receipt["sqlite_witness"]["integer_sum"] = "SKIPPED"
         require(allow_writes or all(step["method"] == "GET" for step in contract["steps"]))
     except (OSError, ValueError, RecursionError):
         verdict, code = "INVALID", 3
@@ -127,7 +133,8 @@ def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=Non
         checking_witness = witness is not None
         try:
             if witness:
-                witness_identity, count = sqlite_witness.count_rows(witness, run_id)
+                witness_identity, observed = sqlite_witness.count_rows(witness, run_id, amount=amount)
+                count = observed[0] if amount else observed
                 receipt["sqlite_witness"]["baseline"] = "PASS" if count == 0 else "FAIL"
                 require(count == 0)
             checking_witness = False
@@ -186,10 +193,18 @@ def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=Non
                     variables[capture["name"]] = captured
             if witness and code == 0:
                 checking_witness = True
-                _, count = sqlite_witness.count_rows(witness, run_id, witness_identity)
+                _, observed = sqlite_witness.count_rows(witness, run_id, witness_identity, amount=amount)
+                count = observed[0] if amount else observed
                 receipt["sqlite_witness"]["readback"] = "PASS" if count == witness[-1] else "FAIL"
                 if count != witness[-1]:
                     verdict, code = "FAIL", 1
+                elif amount:
+                    if observed[1] is None:
+                        raise ValueError("integer witness unavailable")
+                    matched = observed[1] == amount[1]
+                    receipt["sqlite_witness"]["integer_sum"] = "PASS" if matched else "FAIL"
+                    if not matched:
+                        verdict, code = "FAIL", 1
             receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
         except (OSError, http.client.HTTPException, sqlite3.Error, ValueError, RecursionError):
             if verdict != "FAIL":
@@ -199,10 +214,11 @@ def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=Non
                 phase = "baseline" if receipt["attempted_steps"] == 0 else "readback"
                 if receipt["sqlite_witness"][phase] == "SKIPPED":
                     receipt["sqlite_witness"][phase] = "UNVERIFIED"
+                if amount and phase == "readback":
+                    receipt["sqlite_witness"]["integer_sum"] = "UNVERIFIED"
         receipt["effect_unknown"] = effect_unknown or write_in_flight
         receipt["cleanup"] = "operator-managed"
         if receipt["error_class"]:
-            receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
             receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
     receipt.update(verdict=verdict, finished_at=now(), executed_assertions=len(checks),
                    skipped_assertions=None if total is None else total - len(checks))

@@ -13,7 +13,7 @@ from .contracts import ID, decode, matches, require
 
 
 @contextmanager
-def demo_server(variant, port=0, mask_ledger=False):
+def demo_server(variant, port=0, mask_ledger=False, wrong_ledger_amount=False):
     with TemporaryDirectory(prefix="outcomelab-") as directory:
         webhook = Path(directory) / "webhook.sqlite"
         invoice = Path(directory) / "invoice.sqlite"
@@ -78,6 +78,10 @@ def demo_server(variant, port=0, mask_ledger=False):
                                 db.execute("INSERT OR IGNORE INTO invoices(id) VALUES (?)", (invoice_id,))
                         require(events.get(name, (invoice_id, cents)) == (invoice_id, cents))
                         apply(webhook, name, invoice_id, cents)
+                        if wrong_ledger_amount:
+                            with closing(sqlite3.connect(webhook)) as db, db:
+                                db.execute("UPDATE ledger SET amount_cents=? WHERE provider_event_id=?",
+                                           (cents + 1, name))
                         events[name] = (invoice_id, cents)
                     else:
                         save(invoice, invoice_id, name, cents)
@@ -123,9 +127,10 @@ def main():
     parser.add_argument("--port", required=True, type=int, choices=range(1024, 65536), metavar="PORT")
     parser.add_argument("--mask-ledger", action="store_true",
                         help="Demonstrate an API that hides duplicate ledger rows")
+    parser.add_argument("--wrong-ledger-amount", action="store_true")
     parser.add_argument("--show-witness-path", action="store_true")
     args = parser.parse_args()
-    with demo_server(args.variant, args.port, args.mask_ledger) as server:
+    with demo_server(args.variant, args.port, args.mask_ledger, args.wrong_ledger_amount) as server:
         print(f"OutcomeLab disposable {args.variant} service at http://127.0.0.1:{args.port}", flush=True)
         if args.show_witness_path:
             print(f"Disposable ledger database: {server.ledger_db.resolve()}", flush=True)

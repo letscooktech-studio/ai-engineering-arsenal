@@ -24,7 +24,8 @@ For an invoice save, check absence before creation and the identity and amount o
 | --- | --- | --- |
 | The API exposes the expected state | GET the same run-scoped resource before and after the action | V2 HTTP contract |
 | The database contains exactly one effect | Count rows keyed to the run ID | Optional read-only SQLite witness on an approved rollback-journal file |
-| The persisted amount, owner, or status is correct | Inspect typed fields through an operator-approved database read | Use your existing database test harness. OutcomeLab's witness checks row count. |
+| The persisted integer amount is correct | Check the integer sum, with a count of one for a single row | Optional SQLite witness with `--sqlite-sum COLUMN EXPECTED` |
+| The persisted owner or status is correct | Inspect typed fields through an operator-approved database read | Use your existing database test harness. |
 | A rejected operation leaves related records unchanged | Compare each relevant record before and after rejection | Use HTTP assertions for fields exposed by the service. Use a transaction test for backing-store effects across tables. |
 | A race, worker delay, or redelivery is safe | Exercise a deterministic interleaving or controlled worker and observe the final state | Use a dedicated integration harness and report that evidence separately. |
 

@@ -25,6 +25,12 @@ Both webhook requests return 200. Every HTTP assertion passes because the masked
 - Use a trusted local disk and disposable test data. Do not put a production or remote-mounted file behind the approved path. The runner cannot establish filesystem ownership or protect against an adversary controlling the application or filesystem. Keep the test API and database under the operator's control.
 - Receipts include the witness authority, definition hash, and baseline/readback outcomes. They omit paths, SQL rows, and credentials. A failed HTTP check can skip the final witness because failure is already established. An interrupted mutation can have committed; reconcile state and let the operator manage cleanup.
 
-This observer proves a declared row count. Ledger values, non-SQLite data, cross-service consistency, and production behavior need separate evidence.
+## Verify the persisted integer amount
+
+Add `--sqlite-sum amount_cents 750` to the witness command to require an exact sum of the selected column as well as the count. Use integer minor units for money. The column must be visible in the approved table. NULL, text, and real values make the sum unverified. The runner reads the bounded count and values from the same snapshot. Receipts report the comparison outcome and include the sum definition in the hash, without printing values.
+
+To reproduce one persisted row with the wrong amount, start the demo with `--variant fixed --wrong-ledger-amount --show-witness-path --port 8765`. Use the printed path and the same v2 webhook contract with both witness flags. HTTP and count pass, but the integer sum fails. Restart without `--wrong-ledger-amount` to verify the corrected variant.
+
+For a single expected row the sum checks that row's integer value. A sum across multiple rows does not establish each row's amount, ownership, or status. Non-SQLite data, cross-service consistency, and production behavior need separate evidence.
 
 The witness requires SQLite 3.37 or newer for table inspection. References checked November 6, 2026. [SQLite URI modes](https://www.sqlite.org/uri.html) · [SQLite table inspection](https://www.sqlite.org/pragma.html#pragma_table_list) · [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html)
