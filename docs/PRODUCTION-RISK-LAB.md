@@ -30,6 +30,10 @@ Start with the [stateful examples](../examples/http/v2/). The [unknown binding e
 
 IDs are 1–64 ASCII letters, digits, underscores or hyphens. V2 pointers consist of up to eight slash-separated ID-shaped keys. JSON has a nesting limit of 32 and accepts integer numbers only. V2 requires Content-Length for nonempty response bodies and rejects transfer encodings. Ambiguous framing and redirects are rejected. There are at most 10 attempts of up to 5 seconds each, with no POST retry. A timed-out write may already have changed state.
 
+### HTTP response integrity
+
+OutcomeLab rejects parser-reported header defects, malformed field names, folded values, and disallowed control characters. It accepts an absent Content-Encoding or one case-insensitive identity value. Gzip, other encodings, and repeated or stacked codings yield UNVERIFIED when the response is needed for a verdict. The runner does not decompress bodies. The receipt identifies these cases as `malformed_response_headers` or `unsupported_content_encoding` without including response fields. A rejected POST response may follow a committed write. Check `effect_unknown` before taking another action.
+
 ### Local authentication and evidence
 
 Pass `--bearer-token` to read `OUTCOMELAB_BEARER_TOKEN` from the process environment. It supplies only the Authorization bearer header. Empty, oversized, or invalid values, including line breaks, are rejected before contacting the target. Use a short-lived credential for the disposable service. Local HTTP is plaintext and the receiving server controls its own logging. See [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750).

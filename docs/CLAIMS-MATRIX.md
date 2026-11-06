@@ -10,6 +10,8 @@ Baseline: `265bed86737c23d0462310b4ccfaa94de7338f3b`. The baseline run on Window
 | The witness cannot silently fall back to HTTP | [Witness and verdict integration](../risk_lab/http_verify.py) | `test_invalid_or_unavailable_witness_stops_before_requests` and `test_unavailable_final_witness_cannot_pass` | A proven HTTP failure can skip witness readback |
 | Contracts can be validated offline | [CLI](../risk_lab/cli.py) | `test_validate_has_no_network_or_subprocess` | Valid syntax does not prove correct expectations |
 
+The [P0 assurance matrix](assurance/TEST-MATRIX.md) records the measured HTTP response checks and remaining gaps. The policy rejects the tested malformed-header and unsupported-coding cases without treating every HTTP syntax variant as covered.
+
 The [validation workflow](../.github/workflows/validate.yml) installs the CLI on Windows and Ubuntu with Python 3.11 and 3.12. Read the check run attached to the commit under review for observed status and tested SHA.
 
 ## Architecture and scope

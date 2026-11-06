@@ -21,6 +21,10 @@ LIMIT = 256 * 1024
 AUTH_ENV = "OUTCOMELAB_BEARER_TOKEN"
 
 
+class ResponseIntegrityError(http.client.HTTPException):
+    """A response that cannot support a verification claim."""
+
+
 def request(port, step, token=None):
     # Direct HTTPConnection has no proxy configuration or redirect handling.
     connection = http.client.HTTPConnection("127.0.0.1", port, timeout=2)
@@ -48,6 +52,16 @@ def request(port, step, token=None):
             connection.auto_open = False
             connection.request(step["method"], step["path"], payload, headers)
             with connection.getresponse() as response:
+                fields = response.headers
+                if fields.defects or any(
+                    not re.fullmatch(r"[!#$%&'*+.^_`|~0-9A-Za-z-]+", name)
+                    or re.search(r"[\x00-\x08\x0a-\x1f\x7f]", value)
+                    for name, value in fields.raw_items()
+                ):
+                    raise ResponseIntegrityError("malformed_response_headers")
+                codings = fields.get_all("Content-Encoding", [])
+                if codings and (len(codings) != 1 or codings[0].strip(" \t").lower() != "identity"):
+                    raise ResponseIntegrityError("unsupported_content_encoding")
                 lengths = response.headers.get_all("Content-Length", [])
                 encodings = response.headers.get_all("Transfer-Encoding", [])
                 require(len(lengths) <= 1 and len(encodings) <= 1 and not (lengths and encodings))
@@ -206,10 +220,12 @@ def verify(path, base_url, allow_writes, use_bearer=False, witness_arguments=Non
                     if not matched:
                         verdict, code = "FAIL", 1
             receipt["skipped_steps"] = len(steps) - receipt["attempted_steps"]
-        except (OSError, http.client.HTTPException, sqlite3.Error, ValueError, RecursionError):
+        except (OSError, http.client.HTTPException, sqlite3.Error, ValueError, RecursionError) as error:
             if verdict != "FAIL":
                 verdict, code = "UNVERIFIED", 2
             receipt["error_class"] = "witness_unavailable" if checking_witness else "incomplete_observation"
+            if isinstance(error, ResponseIntegrityError):
+                receipt["error_class"] = str(error)
             if checking_witness:
                 phase = "baseline" if receipt["attempted_steps"] == 0 else "readback"
                 if receipt["sqlite_witness"][phase] == "SKIPPED":
