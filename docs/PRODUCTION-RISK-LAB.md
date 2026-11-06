@@ -1,6 +1,25 @@
-# Production Risk Lab — executable negative controls
+# OutcomeLab verification
 
-This is an **early, standard-library-only demonstration system**. It provides repeatable examples of why an API response or a successful function return does not prove a business outcome. It does **not** inspect real services or automatically run third-party agents, mobile emulators, browsers, or payment infrastructure.
+Use the [quickstart](START-HERE.md) for an executable HTTP example. See the [source registry](SOURCE-REGISTRY.md) for platform references and tool boundaries. The legacy SQLite CLI is available separately.
+
+## HTTP contract v1
+
+The JSON object has `schema_version: 1`, `id`, optional `description`, and `steps`. Each step has a unique `id`, `method`, `path`, and integer `expect_status`. POST requires a static JSON object in `json`. GET can have an `assert_json` array and the final step must be a GET with assertions. The runner supports exact typed scalar equality (`equals`) and list length (`length`). Pointers are slash-separated object keys using ASCII letters, digits, underscores and hyphens. Version 1 supports integer JSON numbers.
+
+Use a literal `http://127.0.0.1:PORT` with port 1024–65535. Paths allow slash-separated ASCII letters, digits, underscores and hyphens. The runner sends requests directly to loopback and refuses redirects. Manifests cannot set headers, execute code, or expand variables. Limits include 64 KiB contracts, 16 KiB POST payloads, 256 KiB response bodies, 10 steps, 20 assertions, and up to five seconds per request.
+
+| Exit | Result | Meaning |
+| --- | --- | --- |
+| 0 | PASS | All required observations matched |
+| 1 | FAIL | A status or observed business value contradicted the contract |
+| 2 | UNVERIFIED | The runner could not complete an observation |
+| 3 | INVALID | The contract, target or permission was invalid |
+
+### Threat model
+
+Review the manifest and expected state before execution. POST can leave changes behind even if a later check fails. The verifier uses no proxy, follows no redirects and emits comparison outcomes rather than response payloads or assertion values. Use dummy names in contracts because the receipt includes contract and step IDs and pointers. A contract hash identifies the exact bytes, and Git fields refer to the CLI checkout. A local service can proxy requests elsewhere or return misleading state. Local results cover the declared observations under the supplied environment and input only.
+
+## Legacy SQLite demonstrations
 
 ## Quick start
 

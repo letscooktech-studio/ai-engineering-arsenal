@@ -1,15 +1,15 @@
 ---
 name: nvidia-accelerated-ai-systems-operator
-description: Safely plan, review, and operate NVIDIA-oriented or GPU-accelerated AI skill workflows covering AI-Q, cuOpt, DALI, Dynamo, NemoClaw, Omniverse, USD optimization, physical AI infrastructure, neural reconstruction, simulation-ready assets, and accelerated AI deployment. Use when adapting NVIDIA Agent Skills-style packs into Arsenal workflows or reviewing GPU/accelerated AI systems for setup, deployment, validation, scaling, security, cost, and production readiness.
+description: Safely plan, review, and operate NVIDIA-oriented or GPU-accelerated AI skill workflows covering AI-Q, cuOpt, DALI, Dynamo, NemoClaw, Omniverse, USD optimization, physical AI infrastructure, neural reconstruction, simulation-ready assets, and accelerated AI deployment. Use when adapting NVIDIA Agent Skills-style packs into OutcomeLab workflows or reviewing GPU/accelerated AI systems for setup, deployment, validation, scaling, security, cost, and production readiness.
 ---
 
 # NVIDIA Accelerated AI Systems Operator
 
 Developed by the LetsCookTech Open Source Team.
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
-Operate GPU and NVIDIA-oriented AI workflows as production systems. This is an Arsenal adapter layer: it does not replace official vendor documentation or upstream skills. It adds classification, safety, validation, cost, security, and production-readiness review around accelerated AI tasks.
+Operate GPU and NVIDIA-oriented AI workflows as production systems. This is an OutcomeLab adapter layer: it does not replace official vendor documentation or upstream skills. It adds classification, safety, validation, cost, security, and production-readiness review around accelerated AI tasks.
 
 ## Workflow
 

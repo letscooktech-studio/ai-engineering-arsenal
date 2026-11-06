@@ -5,7 +5,7 @@ description: Build a production-ready AI tool or multi-tenant SaaS end to end, f
 
 # Production AI SaaS Builder
 
-Turn a business problem into a working, secure, observable, cost-controlled product. Produce code and artifacts only after the acceptance criteria and delivery constraints are clear. Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md).
+Turn a business problem into a working, secure, observable, cost-controlled product. Produce code and artifacts only after the acceptance criteria and delivery constraints are clear. Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md).
 
 ## Required intake
 

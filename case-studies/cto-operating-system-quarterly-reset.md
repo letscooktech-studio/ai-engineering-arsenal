@@ -1,5 +1,7 @@
 # CTO Operating System: quarterly reset
 
+Illustrative scenario with fictional inputs.
+
 ## Scenario
 
 A 12-person product team reports missed dates, a rising cloud bill, and two reliability incidents. Leadership asks for “better execution.”

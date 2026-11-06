@@ -5,7 +5,7 @@ description: Validate a startup, product, or feature thesis with falsifiable cus
 
 # Startup Validator
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Replace narrative confidence with a sequence of cheap, falsifiable tests.
 

@@ -5,7 +5,7 @@ description: Run an evidence-led CTO operating review across strategy, delivery,
 
 # CTO Operating System
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Turn engineering signals into a focused operating plan and decision cadence.
 

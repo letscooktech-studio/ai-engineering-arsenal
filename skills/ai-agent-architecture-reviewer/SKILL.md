@@ -7,7 +7,7 @@ description: Review AI agent systems for architecture flaws, planning failures, 
 
 Developed by the LetsCookTech Open Source Team.
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Review AI agents as production systems with planning, memory, tools, permissions, verification, observability, cost, and failure behavior.
 

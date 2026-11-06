@@ -1,6 +1,6 @@
-# AI Engineering Arsenal skill standard
+# OutcomeLab skill standard
 
-Every published Arsenal skill is an operating procedure, not a persona. Its `SKILL.md` must contain a precise trigger description, a minimum intake, workflow, output contract, quality gates, and improvement loop. The following controls apply to every skill, including where a concise skill does not repeat them verbatim.
+Every published OutcomeLab skill is an operating procedure, not a persona. Its `SKILL.md` must contain a precise trigger description, a minimum intake, workflow, output contract, quality gates, and improvement loop. The following controls apply to every skill, including where a concise skill does not repeat them verbatim.
 
 ## Evidence and reasoning
 

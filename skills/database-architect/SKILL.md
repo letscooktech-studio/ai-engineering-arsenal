@@ -5,7 +5,7 @@ description: Design and review data models, database choices, queries, migration
 
 # Database Architect
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Start with access patterns and correctness rules, then choose storage and schema.
 

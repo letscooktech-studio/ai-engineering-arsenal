@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-The most comprehensive AI-powered Next.js architecture review framework in AI Engineering Arsenal. Use it before launch, before a major refactor, or before scaling a SaaS, AI platform, ecommerce site, dashboard, marketplace, blog, agency site, or community platform.
+The most comprehensive AI-powered Next.js architecture review framework in OutcomeLab. Use it before launch, before a major refactor, or before scaling a SaaS, AI platform, ecommerce site, dashboard, marketplace, blog, agency site, or community platform.
 
 ## What it detects
 

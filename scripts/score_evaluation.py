@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Strict, dependency-free scoring of independently assigned Arsenal rubric scores.
+"""Strict, dependency-free scoring of independently assigned OutcomeLab rubric scores.
 
 The script validates arithmetic and input shape. It does NOT establish that the
 human evaluator was unbiased or that an AI response was factually correct.

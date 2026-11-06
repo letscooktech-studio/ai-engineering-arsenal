@@ -13,4 +13,4 @@ Architecture review AI helps teams evaluate system boundaries, data flow, depend
 
 ## Difference from generic AI advice
 
-Generic AI often recommends patterns. Arsenal review requires trade-offs, failure modes, verification, ownership, and a decision record.
+Generic AI often recommends patterns. OutcomeLab review requires trade-offs, failure modes, verification, ownership, and a decision record.

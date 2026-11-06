@@ -1,6 +1,6 @@
-# AI Engineering Arsenal Evaluation Standard
+# OutcomeLab Evaluation Standard
 
-AI Engineering Arsenal outputs are scored on evidence, not style. The score should punish confident unsupported answers and reward calibrated, verifiable work.
+OutcomeLab outputs are scored on evidence, not style. The score should punish confident unsupported answers and reward calibrated, verifiable work.
 
 Developed by the LetsCookTech Open Source Team.
 

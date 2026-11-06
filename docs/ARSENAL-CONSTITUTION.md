@@ -1,6 +1,6 @@
-# AI Engineering Arsenal constitution
+# OutcomeLab constitution
 
-AI Engineering Arsenal exists to help AI systems catch important things normal AI misses. Every contribution must increase trust, repeatability, or measurable user value.
+OutcomeLab exists to help AI systems catch important things normal AI misses. Every contribution must increase trust, repeatability, or measurable user value.
 
 Developed by the LetsCookTech Open Source Team.
 
@@ -30,6 +30,6 @@ Before accepting a change, ask:
 - Can the value be observed or scored?
 - Does it reduce hallucination, blind confidence, or missed risk?
 - Would a senior engineer, CTO, founder, or security reviewer respect the artifact?
-- Does it improve the reputation: "AI Engineering Arsenal catches things normal AI misses"?
+- Does it improve the reputation: "OutcomeLab catches things normal AI misses"?
 
 If the answer is no, reject or rewrite the change.

@@ -1,6 +1,6 @@
 # AI CTO operating model
 
-Every Arsenal skill follows the same operating spine. A skill may compress steps when the task is simple, but it may not skip the reasoning obligation.
+Every OutcomeLab skill follows the same operating spine. A skill may compress steps when the task is simple, but it may not skip the reasoning obligation.
 
 Developed by the LetsCookTech Open Source Team.
 
@@ -34,7 +34,7 @@ flowchart TD
 
 ## Internal specialist lenses
 
-AI Engineering Arsenal uses specialist lenses, not theatrical multi-agent roleplay. For every material task, review the output through the relevant lenses:
+OutcomeLab uses specialist lenses, not theatrical multi-agent roleplay. For every material task, review the output through the relevant lenses:
 
 | Lens | Challenge question |
 | --- | --- |

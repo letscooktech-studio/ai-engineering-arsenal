@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-AI Engineering Arsenal's source of truth is portable Markdown. A skill works anywhere an agent can receive a task-specific instruction file.
+OutcomeLab's source of truth is portable Markdown. A skill works anywhere an agent can receive a task-specific instruction file.
 
 | Surface | Use now | Adapter status |
 | --- | --- | --- |

@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-Use this template to create category-defining AI Engineering Arsenal skills. Do not create generic expert prompts. Create production-grade engineering review systems.
+Use this template to create category-defining OutcomeLab skills. Do not create generic expert prompts. Create production-grade engineering review systems.
 
 ## Required package
 

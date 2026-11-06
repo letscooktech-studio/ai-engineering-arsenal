@@ -1,6 +1,6 @@
-# AI Engineering Arsenal self-evolution roadmap
+# OutcomeLab self-evolution roadmap
 
-AI Engineering Arsenal should improve through scored failures, not prompt inflation.
+OutcomeLab should improve through scored failures, not prompt inflation.
 
 Developed by the LetsCookTech Open Source Team.
 
@@ -17,11 +17,11 @@ Developed by the LetsCookTech Open Source Team.
 - Category confusion if "OS" implies runtime capabilities before they exist.
 - Contributor quality may drop if templates encourage filler.
 - Competitors may add benchmarks faster.
-- Model improvements may reduce perceived need unless AI Engineering Arsenal focuses on verification and operating discipline.
+- Model improvements may reduce perceived need unless OutcomeLab focuses on verification and operating discipline.
 
 ## V3: Proof engine
 
-Goal: make AI Engineering Arsenal visibly better than default AI on tier-one tasks.
+Goal: make OutcomeLab visibly better than default AI on tier-one tasks.
 
 - Add baseline/Framework output pairs for four tier-one skills.
 - Add expected finding inventories for eval cases.
@@ -31,7 +31,7 @@ Goal: make AI Engineering Arsenal visibly better than default AI on tier-one tas
 
 ## V4: Runtime adapters
 
-Goal: make AI Engineering Arsenal easy to use across tools.
+Goal: make OutcomeLab easy to use across tools.
 
 - Add adapter docs for Codex, Claude, ChatGPT, Cursor, Windsurf, Cline, Roo Code, Aider, and agent SDKs.
 - Add machine-readable skill manifests.

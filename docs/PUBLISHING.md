@@ -1,8 +1,8 @@
-# Publishing AI Engineering Arsenal on GitHub
+# Publishing OutcomeLab on GitHub
 
 ## Recommendation
 
-Start with a normal repository under the identity that will actually maintain it. If AI Engineering Arsenal will have multiple long-term maintainers, separate branding, or several future repositories, create a GitHub organization and publish it there from day one. Do not maintain two canonical copies; use one canonical public repository and transfer it later if ownership changes.
+Start with a normal repository under the identity that will actually maintain it. If OutcomeLab will have multiple long-term maintainers, separate branding, or several future repositories, create a GitHub organization and publish it there from day one. Do not maintain two canonical copies; use one canonical public repository and transfer it later if ownership changes.
 
 Suggested canonical name: `ai-engineering-arsenal`. It is model-agnostic, durable, and directly targets the search category: AI engineering.
 

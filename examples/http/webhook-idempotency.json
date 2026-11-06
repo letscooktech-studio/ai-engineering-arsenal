@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "webhook-idempotency",
+  "steps": [
+    {
+      "id": "first",
+      "method": "POST",
+      "path": "/v1/events",
+      "json": {
+        "event_id": "demo-event",
+        "invoice_id": "inv-demo",
+        "amount_cents": 750
+      },
+      "expect_status": 200
+    },
+    {
+      "id": "again",
+      "method": "POST",
+      "path": "/v1/events",
+      "json": {
+        "event_id": "demo-event",
+        "invoice_id": "inv-demo",
+        "amount_cents": 750
+      },
+      "expect_status": 200
+    },
+    {
+      "id": "observe",
+      "method": "GET",
+      "path": "/v1/ledger/inv-demo",
+      "expect_status": 200,
+      "assert_json": [
+        {
+          "pointer": "/credited_cents",
+          "equals": 750
+        },
+        {
+          "pointer": "/ledger_rows",
+          "equals": 1
+        }
+      ]
+    }
+  ]
+}

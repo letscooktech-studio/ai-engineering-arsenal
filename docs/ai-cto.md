@@ -4,7 +4,7 @@ Developed by the LetsCookTech Open Source Team.
 
 An AI CTO workflow turns AI from a chat assistant into a structured engineering decision system. It does not replace a CTO. It helps founders and technical teams ask better questions, expose risks, compare trade-offs, and create verifiable execution plans.
 
-## Arsenal AI CTO workflows
+## OutcomeLab AI CTO workflows
 
 - [`cto-operating-system`](../skills/cto-operating-system)
 - [`production-ai-saas-builder`](../skills/production-ai-saas-builder)

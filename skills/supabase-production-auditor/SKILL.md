@@ -7,7 +7,7 @@ description: Audit Supabase projects for production security, row level security
 
 Developed by the LetsCookTech Open Source Team.
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Audit Supabase as a production data, auth, storage, and operations system. Detect RLS weaknesses, data exposure, cost blowups, scalability limits, and operational gaps before deployment.
 

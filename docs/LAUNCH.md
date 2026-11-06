@@ -2,7 +2,7 @@
 
 ## Positioning
 
-**AI Engineering Arsenal: open-source AI engineering skills, workflows, audits, benchmarks, and playbooks.** Do not promise autonomous CTO work, benchmark wins without artifacts, rankings, or a star target.
+**OutcomeLab: open-source AI engineering skills, workflows, audits, benchmarks, and playbooks.** Do not promise autonomous CTO work, benchmark wins without artifacts, rankings, or a star target.
 
 Developed by the LetsCookTech Open Source Team.
 

@@ -1,6 +1,6 @@
 # Red-team framework
 
-AI Engineering Arsenal should attack its own outputs before users do.
+OutcomeLab should attack its own outputs before users do.
 
 Developed by the LetsCookTech Open Source Team.
 

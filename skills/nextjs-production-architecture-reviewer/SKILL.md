@@ -7,7 +7,7 @@ description: Review Next.js applications for production architecture risks acros
 
 Developed by the LetsCookTech Open Source Team.
 
-Apply the shared [AI Engineering Arsenal skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
+Apply the shared [OutcomeLab skill standard](../../docs/SKILL-STANDARD.md) for evidence, verification, risk, benchmarking, and improvement.
 
 Review a Next.js project as a production system, not as a code-style exercise. Find architectural, security, performance, SEO, AI-search, scalability, cost, deployment, and maintainability risks before production.
 

@@ -1,5 +1,7 @@
 # Competitor Analyzer: market-map decision
 
+Illustrative scenario with fictional inputs.
+
 ## Scenario
 
 A team is considering a developer compliance product. It asks for a competitor analysis but has only a feature list from three vendors.

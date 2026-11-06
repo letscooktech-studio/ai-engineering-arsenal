@@ -1,50 +1,36 @@
-# Start here — reproduce the first Arsenal risk scenarios
+# Start with OutcomeLab
 
-**You can try the runnable demo without creating an account, installing a coding agent, entering API keys, or starting a database server.**
-
-## 1. Run the actual release
-
-Prerequisite: Python 3.11+ and Git.
+Use Python 3.11 or newer. In a virtual environment, run from the checkout:
 
 ```sh
-git clone https://github.com/letscooktech-studio/ai-engineering-arsenal.git
-cd ai-engineering-arsenal
-git checkout v0.1.0
-python -m risk_lab
+python -m pip install -e .
+outcomelab catalog
+outcomelab doctor --project .
+outcomelab demo
 ```
 
-Expected output:
+Installation uses setuptools as its build backend. Runtime uses the Python standard library. The demo command labels both bundled SQLite negative controls `DEMONSTRATED`.
 
-```text
-invoice-persistence: DEMONSTRATED (broken=FAIL, fixed=PASS)
-webhook-idempotency: DEMONSTRATED (broken=FAIL, fixed=PASS)
-```
+## Run the same contract against two real HTTP endpoints
 
-On a clean checkout this typically runs without extra packages. If anything differs, **that's a useful bug report**.
-
-## 2. Inspect what was actually checked
+In terminal 1, start a disposable reference service:
 
 ```sh
-python -m risk_lab --json
-python -m unittest discover -s tests -v
-python scripts/validate.py
-git rev-parse HEAD
+python -m risk_lab.demo_http --variant broken --port 8765
 ```
 
-`invoice-persistence` tests a rolled-back SQLite write against a committed write after reopening the DB connection. `webhook-idempotency` tests a duplicate event that incorrectly credits twice versus one recorded effect under a unique event key.
+In terminal 2, from the checkout, run:
 
-**Important:** This only proves two controlled synthetic fixtures behave as designed. It does *not* verify a real application, an actual payment provider, a browser workflow, or AI coding-agent superiority.
+```sh
+outcomelab verify-http --contract examples/http/webhook-idempotency.json --base-url http://127.0.0.1:8765 --allow-local-writes
+```
 
-## 3. Use it with your coding agent
+Expected stdout is `FAIL (2 assertions, 0 skipped)`. Both POSTs returned 200, but the GET reads two ledger entries and 1500 credited cents. Stop the server with Ctrl+C. Start it again with `--variant fixed` and repeat the exact verification command. Expected stdout is `PASS (2 assertions, 0 skipped)`. The new database records one row and 750 cents.
 
-Review [the Production Risk Lab skill](../skills/production-risk-lab/SKILL.md) and copy its directory into the skills location supported by your current Codex, Claude Code or other compatible agent version. Agents can use the skill to formulate testable production-risk invariants and explain the executable examples.
+Restart the disposable server for each run. To check invoice persistence, use `examples/http/invoice-persistence.json`. Broken acknowledges the write but returns 404 on a fresh-connection GET. Fixed returns the persisted invoice. That check covers a fresh SQLite connection.
 
-The skill does **not** automatically install global hooks, run third-party project code, or grant a coding agent browser/web access.
+## Bring your own service
 
-## 4. Send genuinely useful feedback
+Copy an example and set the endpoints, test payload and expected business state to match your authorized local dev API. Use a fresh test database and dummy identifiers. The write flag permits real state changes on the selected service. Even GET can mutate state if the service implements it that way. Use `--json` for a scoped receipt.
 
-- [Independent reproducibility issue](https://github.com/letscooktech-studio/ai-engineering-arsenal/issues/3) — platform, Python version, commands, observed result, unclear setup or failures.
-- [Contributor scenario proposal](https://github.com/letscooktech-studio/ai-engineering-arsenal/issues/4) — a falsifiable new failure invariant and positive/negative controls.
-- [Security policy](../SECURITY.md) — use private channels for secrets or vulnerability reports, never paste sensitive information into public issues.
-
-Maintainers are especially interested in **counterexamples and limitations**, not only success reports. Stars are appreciated but aren't considered evidence that the tool works for external users.
+See the [contract and safety rules](PRODUCTION-RISK-LAB.md), [contributing guide](../CONTRIBUTING.md), and [issue tracker](https://github.com/letscooktech-studio/outcomelab/issues).

@@ -8,7 +8,7 @@ The 2026-06-22 ecosystem snapshot in [PROJECT-ARSENAL.md](PROJECT-ARSENAL.md) re
 
 ## What established repositories reveal
 
-| Category | Users love | Common failure | Arsenal response |
+| Category | Users love | Common failure | OutcomeLab response |
 | --- | --- | --- | --- |
 | Prompt collections | Immediate copy/paste utility and breadth | Generic, stale, untested entries | Small decision workflows with evaluation gates |
 | Rules and memories | Local context and consistent conventions | Vendor lock-in; weak portability | Plain Markdown source plus thin adapters |

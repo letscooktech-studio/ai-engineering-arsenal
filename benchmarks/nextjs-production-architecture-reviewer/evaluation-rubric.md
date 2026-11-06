@@ -2,7 +2,7 @@
 
 Developed by the LetsCookTech Open Source Team.
 
-Score default AI and Arsenal outputs 0-10 per dimension.
+Score default AI and OutcomeLab outputs 0-10 per dimension.
 
 | Dimension | What to score |
 | --- | --- |

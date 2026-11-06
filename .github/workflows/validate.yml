@@ -23,10 +23,15 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Validate skills and evaluation manifests
         run: python scripts/validate.py
-      - name: Test evaluation tooling
+      - name: Test evaluation tooling and localhost verification
         run: python -m unittest discover -s tests -v
       - name: Verify risk-lab negative controls
         run: python -m risk_lab --json
+      - name: Install and smoke-test OutcomeLab
+        run: |
+          python -m venv .outcomelab-ci
+          python -c "from pathlib import Path; import os, subprocess; p = Path('.outcomelab-ci').resolve(); subprocess.run([p / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python'), '-m', 'pip', 'install', '-e', '.'], check=True)"
+          python -c "from pathlib import Path; import os, subprocess; p = Path('.outcomelab-ci').resolve(); exe = p / ('Scripts/outcomelab.exe' if os.name == 'nt' else 'bin/outcomelab'); [subprocess.run([exe, *args], check=True, cwd=p) for args in (['--help'], ['catalog', '--json'], ['doctor', '--project', '..'], ['demo', '--json'])]"
       - name: Exercise synthetic example CLI
         run: |
           python scripts/score_evaluation.py examples/paired-evaluation/score-example.json
