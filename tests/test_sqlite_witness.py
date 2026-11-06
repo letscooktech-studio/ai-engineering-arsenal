@@ -96,3 +96,46 @@ class SQLiteWitnessTests(unittest.TestCase):
         self.assertEqual(receipt["error_class"], "incomplete_observation")
         self.assertEqual(request.call_count, 4)
         self.assertEqual(receipt["skipped_steps"], 2)
+
+
+    def test_correct_count_cannot_hide_wrong_integer_amount(self):
+        hashes = set()
+        for corrupt, expected in ((True, "FAIL"), (False, "PASS")):
+            with demo_server("fixed", wrong_ledger_amount=corrupt) as server, serving(server) as url:
+                args = [str(server.ledger_db.resolve()), "ledger", "invoice_id", "1"]
+                for _ in range(2):
+                    cli = os.environ.get("OUTCOMELAB_TEST_CLI")
+                    if cli:
+                        with tempfile.TemporaryDirectory() as cwd:
+                            run = subprocess.run([cli, "verify-http", "--contract", WEBHOOK, "--base-url", url,
+                                                  "--allow-local-writes", "--sqlite-witness", *args,
+                                                  "--allow-disposable-witness", "--sqlite-sum", "amount_cents",
+                                                  "750", "--json"], cwd=cwd, capture_output=True, text=True,
+                                                 timeout=15)
+                        receipt, code = json.loads(run.stdout), run.returncode
+                    else:
+                        receipt, code = verify(WEBHOOK, url, True, witness_arguments=args, allow_witness=True,
+                                               sum_arguments=["amount_cents", "750"])
+                    self.assertEqual((receipt["verdict"], code), (expected, int(corrupt)), receipt)
+                    self.assertTrue(all(check["status"] == "PASS" for check in receipt["assertion_results"]))
+                    self.assertEqual(receipt["sqlite_witness"]["readback"], "PASS")
+                    self.assertEqual(receipt["sqlite_witness"]["integer_sum"], expected)
+                    hashes.add(receipt["contract_sha256"])
+                    print(f"Wrong amount control corrupt={corrupt}: HTTP PASS, count PASS, integer sum {expected}")
+        self.assertEqual(len(hashes), 1)
+
+    def test_integer_sum_rejects_noninteger_values_and_missing_columns(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = (Path(root) / "typed.sqlite").resolve()
+            spec = definition([str(path), "ledger", "run_id", "1"])
+            with closing(sqlite3.connect(path)) as db, db:
+                db.execute("CREATE TABLE ledger (run_id TEXT, amount)")
+                db.executemany("INSERT INTO ledger VALUES (?, ?)", [
+                    ("null", None), ("text", "750"), ("real", 750.5), ("int", 750),
+                ])
+            identity, _ = count_rows(spec, "unused", amount=("amount", 750))
+            for run_id in ("null", "text", "real"):
+                self.assertEqual(count_rows(spec, run_id, identity, amount=("amount", 750))[1], (1, None))
+            with self.assertRaises(ValueError):
+                count_rows(spec, "int", identity, amount=("unknown", 750))
+            self.assertEqual(count_rows(spec, "int", identity, amount=("amount", 750))[1], (1, 750))

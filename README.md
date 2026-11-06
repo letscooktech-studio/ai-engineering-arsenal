@@ -30,12 +30,14 @@ The broken service returns HTTP 200 for both deliveries, but the ledger shows tw
 
 ## Check the backing store
 
-The optional SQLite witness can catch a duplicate ledger row even when the API reports one credit and every HTTP assertion passes. It counts only rows for the current run in an explicitly approved disposable database. See the [deceptive-API walkthrough](docs/sqlite-effect-witness.md) and the [evidence matrix](docs/CLAIMS-MATRIX.md).
+The optional SQLite witness can catch a duplicate ledger row even when the API reports one credit and every HTTP assertion passes. It counts only rows for the current run in an explicitly approved disposable database. An optional integer sum also detects a wrong amount when the row count is correct. See the [deceptive-API walkthrough](docs/sqlite-effect-witness.md) and the [evidence matrix](docs/CLAIMS-MATRIX.md).
 
 ## Check your own API
 
-Copy an [stateful example contract](examples/http/v2/) and set the routes, test payloads, and expected state for your service. Check it offline with `outcomelab validate --contract PATH`, then run against a disposable database. The runner accepts literal IPv4 loopback targets and requires `--allow-local-writes` for POST requests. Add `--json` to get a receipt with the contract hash, verdict, and assertion outcomes.
+Copy a [stateful example contract](examples/http/v2/) and set the routes, test payloads, and expected state for your service. Check it offline with `outcomelab validate --contract PATH`, then run against a disposable database. The runner accepts literal IPv4 loopback targets and requires `--allow-local-writes` for POST requests. Add `--json` to get a receipt with the contract hash, verdict, and assertion outcomes.
 
+- [Backend developer guide](docs/BACKEND-VERIFICATION-GUIDE.md)
+- [Agent verification guide and reusable prompt](docs/AGENT-VERIFICATION-GUIDE.md)
 - [Walkthrough for webhook idempotency and invoice persistence](docs/START-HERE.md)
 - [Run API regression tests in CI](docs/api-regression-testing-in-ci.md)
 - [Contract format, exit codes, and safety rules](docs/PRODUCTION-RISK-LAB.md)
